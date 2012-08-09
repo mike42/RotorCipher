@@ -1,4 +1,4 @@
 RotorCipher
 ===========
 
-Tools and simulations of rotor ciphers
+Tools and simulations for rotor ciphers.
