@@ -43,6 +43,12 @@ public class Rotor {
 		}
 	}
 
+	/**
+	 * Add a given wire, calculating what it does for each possible rotor position
+	 * 
+	 * @param in	Input character (left of rotor)
+	 * @param out	Output character (right of rotor)
+	 */
 	private void propagate(char in, char out) {
 		/* Add this character to the table */
 		int inID;
@@ -55,25 +61,46 @@ public class Rotor {
 		}
 	}
 
+	/**
+	 * Spin this rotor to the given position
+	 * 
+	 * @param newPosChar	Character to set the rotor to
+	 * @return				True if the rotor was rotated, false if the character is not in the alphabet
+	 */
 	public boolean setTo(char newPosChar) {
 		/* Set the rotor to this position */
-		position = alphabet.getIndexFromChar(newPosChar);
-		return true;
+		if(alphabet.hasChar(newPosChar)) {
+			position = alphabet.getIndexFromChar(newPosChar);
+			return true;
+		}
+		return false;
 	}
 
+	/**
+	 * Spin the rotor in the default direction
+	 */
 	public void rotate() {
 		rotate(1);
 	}
 
+	/**
+	 * Spin the rotor a given number of positions
+	 * 
+	 * @param offset	Number of positions to move (can be positive or negative)
+	 */
 	public void rotate(int offset) {
-		/* Spin the rotor a certain number of positions */
-		position += offset;
+		position += offset + numPositions;
 		position %= numPositions;
 	}	
 
 
+	/**
+	 * Encipher one character
+	 * 
+	 * @param c	Character to encipher
+	 * @return	The result of putting this character through the rotor
+	 */
 	public char encipherChar(char c) {
-		/* Return the result of putting a single character through this rotor */
 		int inID = alphabet.getIndexFromChar(c);
 		return substTable[position][inID];
 	}
