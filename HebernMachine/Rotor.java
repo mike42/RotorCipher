@@ -1,9 +1,20 @@
+/**
+ * Simulates a single rotor on a rotor machine
+ * 
+ * @author	Michael Billington <michael.billington@gmail.com>
+ * @since	2012-09-08
+ */
 public class Rotor {
 	Alphabet alphabet;
-	char[][] substTable;
-	int position;
-	int numPositions;
+	
+	char[][] substTable; 	/* Table of character substitutions */
+	int position;			/* Current position of the rotor */
+	int numPositions;		/* Number of possible positions this rotor can take (=length of the alphabet) */
 
+	/**
+	 * @param alphabet 	The alphabet to use. This must be the same for all rotors on a given machine
+	 * @param pair 		Array of 2-character strings representing the substitutions that this rotor makes, eg {"AB", "BA"} 
+	 */
 	public Rotor(Alphabet alphabet, String[] pair) {
 		/* Cannot override more characters than the length of the alphabet */
 		assert(pair.length <= alphabet.length());

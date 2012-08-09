@@ -1,12 +1,24 @@
+/**
+ * Class for working with a user-defined alphabet for use in a cipher.
+ * 
+ * @author	Michael Billington <michael.billington@gmail.com>
+ * @since	2012-09-08
+ */
+
 public class Alphabet {
 	public final static int MAX = 256; /* Number of characters that we are willing to accept */
-
 	private char[] letter;
-	private int[] letterIndex; /* Reverse of letter table */
+	
+	private int[] letterIndex; /* Indices of each character (Reverse of letter table) */
+	private boolean[] inAlphabet; 	/* Table of characters which are in the alphabet */
 
 	private int length;
-	private boolean[] inAlphabet;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param inp String representing all characters of the alphabet.
+	 */
 	public Alphabet(String inp) {
 		/* {{TODO}} strip duplicate and out-of-range letters from input */
 		int i;
@@ -34,6 +46,12 @@ public class Alphabet {
 		}
 	}
  
+	/**
+	 * Check if a character is in the alphabet
+	 * 
+	 * @param letter a character to check
+	 * @return true if the character is in this alphabet, false otherwise
+	 */
 	public boolean hasChar(char letter) {
 		/* Returns true if a letter is in this alphabet, false otherwise */
 		if(letter >= 0 && letter < MAX) {
@@ -43,10 +61,21 @@ public class Alphabet {
 		}
 	}
 
+	/**
+	 * Length of alphabet
+	 * 
+	 * @return the number of characters in this alphabet
+	 */
 	public int length() {
 		return this.length;
 	}
 
+	/**
+	 * Next character
+	 * 
+	 * @param last the current character
+	 * @return the next character in the alphabet, from this one (or the first character, if the final one is given as input)
+	 */
 	public char next(char last) {
 		/* Next char in alphabet, from this place */
 		int from = getIndexFromChar(last);
@@ -57,6 +86,12 @@ public class Alphabet {
 		}
 	}
 
+	/**
+	 * Previous character
+	 * 
+	 * @param last the current character
+	 * @return the previous character in the alphabet, from this one (or the last character, if the first is given as input)
+	 */
 	public char prev(char last) {
 		/* Next char in alphabet, from this place */
 		int from = getIndexFromChar(last);
@@ -67,14 +102,25 @@ public class Alphabet {
 		}
 	}
 
+	/**
+	 * Look up a character in the alphabet
+	 * 
+	 * @param c the character to look up
+	 * @return The index of this character in the alphabet, for English A becomes 0, B becomes 26.
+	 */
 	public int getIndexFromChar(char c) {
 		/* Return what index a character is in the alphabet. A returns 0, B returns 1, and so on. */
 		assert(c >= 0 && c < MAX);
 		return letterIndex[c];
 	}
 
+	/**
+	 * Get the nth letter of the alphabet
+	 * 
+	 * @param n
+	 * @return character n of the alphabet. 0 returns A, 1 returns B, and so on
+	 */
 	public char getCharFromIndex(int n) {
-		/* Return character n of the alphabet. 0 returns A, 1 returns B, and so on */
 		assert(n >= 0 && n < letter.length);
 		return letter[n];
 	}

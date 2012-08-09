@@ -1,5 +1,11 @@
 import java.util.Scanner;
-
+/**
+ * Basic simulation of a Hebern rotor machine. 
+ * 
+ * @author Michael Billington <michael.billington@gmail.com>
+ * @since 2012-09-08
+ * @bugs cockroaches, beetles, and earwigs.
+ */
 public class HebernMachine {
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
@@ -23,6 +29,4 @@ public class HebernMachine {
 			}
 		} while(setting.length() > 0);
 	}
-
-
 }
