@@ -124,4 +124,17 @@ public class Alphabet {
 		assert(n >= 0 && n < letter.length);
 		return letter[n];
 	}
+
+	/**
+	 * Get alphabet as array of single-character strings (used for spinner models in GUI)
+	 * 
+	 * @return array of Strings, one entry for each character, eg {"A", "B", "C"} for English
+	 */
+	public String[] toStringArray() {
+		String[] outp = new String[letter.length];
+		for(int i = 0; i < letter.length; i++) {
+			outp[i] = new String(new char[] {letter[i]});
+		}
+		return outp;
+	}
 }

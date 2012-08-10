@@ -1,5 +1,5 @@
 /**
- * Simulates a rotor machine
+ * Simulates a generic rotor machine
  * 
  * @author	Michael Billington <michael.billington@gmail.com>
  * @since	2012-09-08
