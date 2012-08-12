@@ -137,4 +137,15 @@ public class Alphabet {
 		}
 		return outp;
 	}
+	
+	/**
+	 * Get alphabet as an array of characters (ie, return a copy of letter[])
+	 * 
+	 * @return A copy of this.letter[]
+	 */
+	public char[] toCharArray() {
+		char[] outp = new char[letter.length];
+		System.arraycopy(letter, 0, outp, 0, letter.length);
+        return outp;
+	}
 }
