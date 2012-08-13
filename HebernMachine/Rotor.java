@@ -7,7 +7,8 @@
 public class Rotor {
 	Alphabet alphabet;
 	
-	char[][] substTable; 	/* Table of character substitutions */
+	char[][] encipherTable;	/* Table of character substitutions */
+	char[][] decipherTable;	/* Inverse table of above to save on lookups */
 	int position;			/* Current position of the rotor */
 	int numPositions;		/* Number of possible positions this rotor can take (=length of the alphabet) */
 
@@ -20,7 +21,8 @@ public class Rotor {
 		assert(pair.length <= alphabet.length());
 		this.alphabet = alphabet;
 		numPositions = alphabet.length();
-		substTable = new char[numPositions][numPositions];
+		encipherTable = new char[numPositions][numPositions];
+		decipherTable = new char[numPositions][numPositions];
 
 		int i;
 		char c;
@@ -28,7 +30,8 @@ public class Rotor {
 		/* Propagate A-A, B-B, etc, to do no transformations for undefined pairs */
 		for(i = 0; i < numPositions; i++) {
 			c = alphabet.getCharFromIndex(i);
-			propagate(c, c);
+			propagate(encipherTable, c, c);
+			propagate(decipherTable, c, c);
 		}
 
 		/* Apply defined substitutions */
@@ -38,7 +41,8 @@ public class Rotor {
 			assert(pairChar.length == 2); /* 1 char to 1 char, other lengths are no good */
 
 			/* Propagate item in table (reciprocol wiring not assumed) */
-			propagate(pairChar[0], pairChar[1]);
+			propagate(encipherTable,		pairChar[0], pairChar[1]);
+			propagate(decipherTable,	pairChar[1], pairChar[0]);
 		}
 	}
 
@@ -48,12 +52,13 @@ public class Rotor {
 	 * @param in	Input character (left of rotor)
 	 * @param out	Output character (right of rotor)
 	 */
-	private void propagate(char in, char out) {
+	private void propagate(char[][]substTable, char in, char out) {
 		/* Add this character to the table */
 		int inID;
 		for(int pos = 0; pos < numPositions; pos++) {
 			inID = alphabet.getIndexFromChar(in);
 			substTable[pos][inID] = out;
+
 			/* Rotate the rotor and fill in its next translation */
 			in = alphabet.prev(in);
 			out = alphabet.prev(out);
@@ -101,6 +106,11 @@ public class Rotor {
 	 */
 	public char encipherChar(char c) {
 		int inID = alphabet.getIndexFromChar(c);
-		return substTable[position][inID];
+		return encipherTable[position][inID];
+	}
+
+	public char decipherChar(char c) {
+		int inID = alphabet.getIndexFromChar(c);
+		return decipherTable[position][inID];
 	}
 }

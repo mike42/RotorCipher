@@ -32,20 +32,42 @@ public class HebernMachineSimulator {
 	 * Interface with machine via command-line
 	 */
 	final private static void hebernCLI() {
-		String setting, todo; /* Next rotor setting, and next text block to encipher/decipher */
+		String action, setting, todo; /* Next rotor setting, and next text block to encipher/decipher */
 		Scanner input = new Scanner(System.in);
 
 		do {
-			System.out.print("Set rotor (blank to exit): ");
-			setting = input.nextLine();
-
-			if(setting.length() > 0) {
-				todo = input.nextLine(); 
-
-				machine.setRotorsTo(setting.toUpperCase().toCharArray());
-				System.out.println(machine.encipher(todo.toUpperCase().toCharArray()));
+			/* Encipher, decipher, or quit */
+			action = "";
+			while(!action.equals("e") && !action.equals("d") && !action.equals("q")) {
+				System.out.print("Encipher, decipher, or quit? (e / d / q): ");
+				action = input.nextLine();
 			}
-		} while(setting.length() > 0);
+
+			/* Stop on quit selection */
+			if(action.equals("q")) {
+				return;
+			}
+
+			/* Set rotor */
+			setting = "";
+			while(setting.length() < 1) {
+				System.out.print("Set rotor: ");
+				setting = input.nextLine().toUpperCase();
+			}
+			machine.setRotorsTo(setting.toCharArray());
+
+			if(action.equals("e")) {
+				/* Encipher */
+				System.out.print("Plaintext: ");
+				todo = input.nextLine().toUpperCase(); 
+				System.out.println(machine.encipher(todo.toCharArray()));
+			} else {
+				/* Decipher */
+				System.out.print("Ciphertext: ");
+				todo = input.nextLine().toUpperCase(); 
+				System.out.println(machine.decipher(todo.toCharArray()));
+			}
+		} while(!action.equals("q"));
 	}
 
 	/**

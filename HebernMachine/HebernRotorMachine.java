@@ -13,10 +13,24 @@ public class HebernRotorMachine extends RotorMachine {
 	 */
 	public HebernRotorMachine() {
 		super(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 1, 1, false);
+		machine1();
+	}
+	
+	public void machine1() {
+		/* Preset for first machine */
 		Rotor rotor = new Rotor(this.alphabet, new String[] {"FA", "TB", "QC", "JD", "VE", "AF", "XG", "MH", "WI", "DJ", "SK", "NL", "HM", "LN", "RO", "UP", "CQ", "OR", "KS", "BT", "PU", "EV", "IW", "GX", "ZY", "YZ"});
 		this.setRotor(0, rotor);
 	}
-	
+
+	public void machine2() {
+		/* Second example machine - Mixed input only */
+		Rotor inWiring = new Rotor(this.alphabet, new String[] {"AQ", "BW", "CE", "DR", "ET", "FY", "GU", "HI", "IO", "JP", "KA", "LS", "MD", "NF", "OG", "PH", "QJ", "RK", "SL", "TZ", "UX", "VC", "WV", "XB", "YN", "ZM"});
+		this.setInWiring(inWiring);
+
+		Rotor rotor = new Rotor(this.alphabet, new String[] {"GA", "AB", "DC", "BD", "OE", "CF", "TG", "KH", "NI", "UJ", "ZK", "XL", "IM", "WN", "HO", "FP", "QQ", "YR", "JS", "VT", "PU", "MV", "EW", "LX", "SY", "RZ"});
+		this.setRotor(0, rotor);
+	}
+
 	/**
 	 * Generate a random Hebern Machine rotor. For the English alphabet, there are:
 	 * 
