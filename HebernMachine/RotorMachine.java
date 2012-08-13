@@ -140,19 +140,29 @@ public class RotorMachine {
 	}
 
 	/**
-	 * Encipher a single character with the machine
+	 * Encipher a single character with the machine by passing it through a series of transformations
 	 * 
 	 * @param	in the character to encipher
 	 * @return	a ciphertext representation of the character, or the input character if it is not in the alphabet.
 	 */
 	public char encipherChar(char in) {
-		/* Just run it through first rotor */
 		if(!alphabet.hasChar(in)) {
 			return in;
-		} else {
-			Rotor rotor = rotorLibrary[selectedRotors[0]];
-			rotor.rotate();
-			return rotor.encipherChar(in);
 		}
+
+		char out;
+		out = in;
+
+		/* Pass letter to input wiring (defaults to 1-1 [no transformation] if not set) */
+		out = inWiring.encipherChar(out);
+
+		/* Encipher with first rotor */
+		Rotor rotor = rotorLibrary[selectedRotors[0]];
+		rotor.rotate();
+		out = rotor.encipherChar(out);
+
+		/* Pass through output wiring */
+		out = inWiring.encipherChar(out);
+		return out;
 	}
 }
