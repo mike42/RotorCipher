@@ -37,9 +37,8 @@ public class Rotor {
 			pairChar = pair[i].toUpperCase().toCharArray();
 			assert(pairChar.length == 2); /* 1 char to 1 char, other lengths are no good */
 
-			/* Propagate item in table both ways */
+			/* Propagate item in table (reciprocol wiring not assumed) */
 			propagate(pairChar[0], pairChar[1]);
-			propagate(pairChar[1], pairChar[0]);
 		}
 	}
 

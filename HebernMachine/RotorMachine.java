@@ -15,6 +15,10 @@ public class RotorMachine {
 	boolean hasPlugBoard;
 	Rotor plugBoard;
 
+	/* Adjustible in/out wiring */
+	Rotor inWiring;
+	Rotor outWiring;
+
 	/**
 	 * Constructor
 	 * 
@@ -33,6 +37,10 @@ public class RotorMachine {
 
 		/* Initialise selected rotors */
 		selectedRotors = new int[rotorCount];
+
+		/* Default in-and-out wiring is 1-1 */
+		inWiring = new Rotor(alphabet, new String[0]);
+		outWiring = new Rotor(alphabet, new String[0]);
 
 		/* Fill rotor library with blank rotors */
 		for(int i = 0; i < rotorLibrary.length; i++) {
@@ -71,6 +79,24 @@ public class RotorMachine {
 	public void setRotor(int id, Rotor newRotor) {
 		/* Set rotor in library */
 		rotorLibrary[id] = newRotor;
+	}
+
+	/**
+	 * Set in-wiring (where each letter connects on plugboard)
+	 * 
+	 * @param newInWiring	A rotor object representing the wiring
+	 */
+	public void setInWiring(Rotor newInWiring) {
+		this.inWiring = newInWiring;
+	}
+
+	/**
+	 * Set out-wiring (how enciphered characters are translated to output)
+	 * 
+	 * @param newOutWiring	A rotor object representing the wiring
+	 */
+	public void setOutWiring(Rotor newOutWiring) {
+		this.inWiring = newOutWiring;
 	}
 
 	/**
