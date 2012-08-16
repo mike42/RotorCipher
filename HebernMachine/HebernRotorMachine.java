@@ -13,7 +13,7 @@ public class HebernRotorMachine extends RotorMachine {
 	 */
 	public HebernRotorMachine() {
 		super(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 1, 1, false);
-		machine1();
+		machine2();
 	}
 	
 	public void machine1() {
@@ -32,13 +32,14 @@ public class HebernRotorMachine extends RotorMachine {
 	}
 
 	/**
-	 * Generate a random Hebern Machine rotor. For the English alphabet, there are:
-	 * 
+	 * Generate a random Hebern Machine rotor where enciphering ciphertext produces plaintext
+
+	 * For the English alphabet, there are:
 	 * 26! / (2^13 * 13!) ~= 7.9*10^12 possible outputs.
 	 * 
 	 * @return - A rotor with random wiring which is compatible with this machine
 	 */
-	public Rotor getRandomRotor() {
+	public Rotor getRandomRotorSymmetrical() {
 		char[] letters = this.alphabet.toCharArray();	
 		int alphabetSize = letters.length;
 		String[] pair = new String[alphabetSize];

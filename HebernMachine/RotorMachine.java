@@ -154,7 +154,7 @@ public class RotorMachine {
 		out = in;
 
 		/* Pass letter to input wiring (defaults to 1-1 [no transformation] if not set) */
-		// out = inWiring.encipherChar(out);
+		out = inWiring.encipherChar(out);
 
 		/* Encipher with first rotor */
 		Rotor rotor = rotorLibrary[selectedRotors[0]];
@@ -162,7 +162,7 @@ public class RotorMachine {
 		out = rotor.encipherChar(out);
 
 		/* Pass through output wiring */
-		// out = inWiring.encipherChar(out);
+		out = outWiring.encipherChar(out);
 		return out;
 	}
 
@@ -176,12 +176,24 @@ public class RotorMachine {
 	}
 
 	public char decipherChar(char in) {
+		if(!alphabet.hasChar(in)) {
+			return in;
+		}
+		
 		char out;
 		Rotor rotor = rotorLibrary[selectedRotors[0]];
 		rotor.rotate();
 
 		out = in;
+
+		/* Pass through out wiring */
+		out = outWiring.decipherChar(in);
+
+		/* Working with single rotor */
 		out = rotor.decipherChar(out);
+
+		/* Pass through in wiring */
+		out = inWiring.decipherChar(out);
 		return out;
 	}
 }
