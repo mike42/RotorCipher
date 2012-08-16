@@ -40,9 +40,9 @@ public class Rotor {
 			pairChar = pair[i].toUpperCase().toCharArray();
 			assert(pairChar.length == 2); /* 1 char to 1 char, other lengths are no good */
 
-			/* Propagate item in table (reciprocol wiring not assumed) */
-			propagate(encipherTable,		pairChar[0], pairChar[1]);
-			propagate(decipherTable,	pairChar[1], pairChar[0]);
+			/* Propagate item in table (reciprocal wiring not assumed) */
+			propagate(encipherTable,	pairChar[1], pairChar[0]);
+			propagate(decipherTable,	pairChar[0], pairChar[1]);
 		}
 	}
 

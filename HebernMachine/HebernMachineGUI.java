@@ -7,8 +7,6 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.Box;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

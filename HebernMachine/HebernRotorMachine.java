@@ -13,7 +13,11 @@ public class HebernRotorMachine extends RotorMachine {
 	 */
 	public HebernRotorMachine() {
 		super(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 1, 1, false);
-		machine2();
+
+		/* Change between wiring presets here */
+		//machine1();		 /* Week 1 machine */
+		//machine2(false);   /* Week 2 machine with unmixed out-wiring */
+		machine2(true);      /* Week 2 machine with mixed out-wiring */
 	}
 	
 	public void machine1() {
@@ -22,13 +26,18 @@ public class HebernRotorMachine extends RotorMachine {
 		this.setRotor(0, rotor);
 	}
 
-	public void machine2() {
-		/* Second example machine - Mixed input only */
+	public void machine2(boolean mixedOut) {
+		/* Second example machine - Mixed input/output only */
 		Rotor inWiring = new Rotor(this.alphabet, new String[] {"AQ", "BW", "CE", "DR", "ET", "FY", "GU", "HI", "IO", "JP", "KA", "LS", "MD", "NF", "OG", "PH", "QJ", "RK", "SL", "TZ", "UX", "VC", "WV", "XB", "YN", "ZM"});
 		this.setInWiring(inWiring);
 
 		Rotor rotor = new Rotor(this.alphabet, new String[] {"GA", "AB", "DC", "BD", "OE", "CF", "TG", "KH", "NI", "UJ", "ZK", "XL", "IM", "WN", "HO", "FP", "QQ", "YR", "JS", "VT", "PU", "MV", "EW", "LX", "SY", "RZ"});
 		this.setRotor(0, rotor);
+		
+		if(mixedOut) {
+			Rotor outWiring = new Rotor(this.alphabet, new String[] {"BA", "LB", "AC", "CD", "KE", "HF", "OG", "RH", "SI", "EJ", "DK", "FL", "GM", "IN", "JO", "MP", "NQ", "PR", "QS", "TT", "UU", "VV", "WW", "XX", "YY", "ZZ"});
+			this.setOutWiring(outWiring);
+		}
 	}
 
 	/**

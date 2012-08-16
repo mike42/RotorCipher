@@ -96,7 +96,7 @@ public class RotorMachine {
 	 * @param newOutWiring	A rotor object representing the wiring
 	 */
 	public void setOutWiring(Rotor newOutWiring) {
-		this.inWiring = newOutWiring;
+		this.outWiring = newOutWiring;
 	}
 
 	/**
@@ -150,15 +150,15 @@ public class RotorMachine {
 			return in;
 		}
 
-		char out;
-		out = in;
-
+		Rotor rotor = rotorLibrary[selectedRotors[0]];
+		rotor.rotate();
+		
+		char out = in;
+		
 		/* Pass letter to input wiring (defaults to 1-1 [no transformation] if not set) */
 		out = inWiring.encipherChar(out);
 
 		/* Encipher with first rotor */
-		Rotor rotor = rotorLibrary[selectedRotors[0]];
-		rotor.rotate();
 		out = rotor.encipherChar(out);
 
 		/* Pass through output wiring */
@@ -180,15 +180,15 @@ public class RotorMachine {
 			return in;
 		}
 		
-		char out;
 		Rotor rotor = rotorLibrary[selectedRotors[0]];
+
 		rotor.rotate();
 
-		out = in;
+		char out = in;
 
 		/* Pass through out wiring */
-		out = outWiring.decipherChar(in);
-
+		out = outWiring.decipherChar(out);
+		
 		/* Working with single rotor */
 		out = rotor.decipherChar(out);
 
