@@ -10,10 +10,6 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
 import java.awt.FlowLayout;
 
 /**
@@ -41,7 +37,7 @@ public class HebernMachineGUI {
 	private void initialise() {
 		frmRotorCiphers = new JFrame();
 		frmRotorCiphers.setTitle("Rotor Ciphers");
-		frmRotorCiphers.setBounds(100, 100, 505, 317);
+		frmRotorCiphers.setBounds(100, 100, 462, 317);
 		frmRotorCiphers.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmRotorCiphers.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -68,31 +64,27 @@ public class HebernMachineGUI {
 		HebernMachineSimulator.machine.setRotorsTo(new char[] {c});
 		
 		JPanel machineButtonPanel = new JPanel();
-		machinePanelFooter.add(machineButtonPanel, BorderLayout.EAST);
-				machineButtonPanel.setLayout(new FormLayout(new ColumnSpec[] {
-						FormFactory.RELATED_GAP_COLSPEC,
-						FormFactory.DEFAULT_COLSPEC,
-						FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-						ColumnSpec.decode("95px"),},
-					new RowSpec[] {
-						FormFactory.LINE_GAP_ROWSPEC,
-						RowSpec.decode("25px"),}));
+		machinePanelFooter.add(machineButtonPanel, BorderLayout.CENTER);
+				machineButtonPanel.setLayout(null);
 				
 				JButton btnDecipher = new JButton("Decipher");
-				machineButtonPanel.add(btnDecipher, "2, 2");
+				btnDecipher.setBounds(64, 0, 97, 25);
+				machineButtonPanel.add(btnDecipher);
 		
 				JButton btnMachineEncipher = new JButton("Encipher");
-				machineButtonPanel.add(btnMachineEncipher, "4, 2, left, top");
+				btnMachineEncipher.setBounds(161, 0, 95, 25);
+				machineButtonPanel.add(btnMachineEncipher);
+				
+				final JSpinner spnMachineRotor = new JSpinner();
+				spnMachineRotor.setBounds(12, 1, 36, 23);
+				machineButtonPanel.add(spnMachineRotor);
+				spnMachineRotor.setModel(new RolloverSpinnerListModel(alphabetStr));
 				
 				JPanel panel = new JPanel();
 				machinePanelFooter.add(panel, BorderLayout.WEST);
 				
 				JLabel lblRotorPosition = new JLabel("Rotor position:");
 				panel.add(lblRotorPosition);
-				
-				final JSpinner spnMachineRotor = new JSpinner();
-				panel.add(spnMachineRotor);
-				spnMachineRotor.setModel(new RolloverSpinnerListModel(alphabetStr));
 				
 				JPanel machinePanelHeader = new JPanel();
 				FlowLayout flowLayout = (FlowLayout) machinePanelHeader.getLayout();
