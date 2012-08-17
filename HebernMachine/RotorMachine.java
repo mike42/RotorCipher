@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * Simulates a generic rotor machine
  * 
@@ -12,7 +18,6 @@ public class RotorMachine {
 	int[] selectedRotors;
 
 	/* Plugboard options (unimplemented) */
-	boolean hasPlugBoard;
 	Rotor plugBoard;
 
 	/* Adjustible in/out wiring */
@@ -27,21 +32,46 @@ public class RotorMachine {
 	 * @param rotorLibrarySize	The number of rotors in the library (includes all defined rotors, regardless of which are in use)
 	 * @param hasPlugBoard		True if the machine also has a plugboard, false otherwise
 	 */
-	public RotorMachine(Alphabet alphabet, int rotorCount, int rotorLibrarySize, boolean hasPlugBoard) {
-		/* Load alphabet */
-		this.alphabet = alphabet;
-
-		/* Must have enough selectable rotors to fill machine */
-		assert(rotorLibrarySize >= rotorCount);
-		rotorLibrary = new Rotor[rotorLibrarySize];
-
-		/* Initialise selected rotors */
-		selectedRotors = new int[rotorCount];
-
+	public RotorMachine(Alphabet alphabet, int rotorCount, int rotorLibrarySize) {
+		setAlphabet(alphabet);
+		
 		/* Default in-and-out wiring is 1-1 */
 		inWiring = new Rotor(alphabet, new String[0]);
 		outWiring = new Rotor(alphabet, new String[0]);
 
+		/* Set number of rotors in machine */
+		setRotorCount(rotorCount);
+		setRotorLibrarySize(rotorLibrarySize);
+	}
+	
+	/**
+	 * Default to a single-rotor machine which uses the English alphabet and does no encipherment at all.
+	 */
+	public RotorMachine() {
+		this(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 1, 1);
+	}
+
+	/**
+	 * Set the alphabet for the machine. Change this before you add rotors.
+	 * 
+	 * @param alphabet The new alphabet to use
+	 */
+	public void setAlphabet(Alphabet alphabet) {
+		/* Load alphabet */
+		this.alphabet = alphabet;
+	}
+	
+	/**
+	 * Set the number of rotors which you can select from
+	 * 
+	 * @param rotorLibrarySize	number of rotors which can be selected from
+	 */
+	public void setRotorLibrarySize(int rotorLibrarySize) {
+		int rotorCount = selectedRotors.length;
+		/* Must have enough selectable rotors to fill machine */
+		assert(rotorLibrarySize >= rotorCount);
+		rotorLibrary = new Rotor[rotorLibrarySize];
+		
 		/* Fill rotor library with blank rotors */
 		for(int i = 0; i < rotorLibrary.length; i++) {
 			rotorLibrary[i] = new Rotor(alphabet, new String[0]);
@@ -50,11 +80,18 @@ public class RotorMachine {
 				selectedRotors[i] = i;
 			}
 		}
-
-		/* Plugboard goes into the cipher as another rotor, but it can be dynamically wired, so we treat it specially */
-		this.hasPlugBoard = hasPlugBoard;
 	}
-
+		
+	/**
+	 * Set the number of rotors which can be used at a time.
+	 * 
+	 * @param rotorCount Number of rotors which can be selected at ocne
+	 */
+	public void setRotorCount(int rotorCount) {
+		/* Initialise selected rotors */
+		selectedRotors = new int[rotorCount];
+	}
+	
 	/**
 	 * Return a rotor from library
 	 * 
@@ -166,6 +203,12 @@ public class RotorMachine {
 		return out;
 	}
 
+	/**
+	 * Decipher an array of characters. Call setRotorsTo() before this to set starting position.
+	 * 
+	 * @param in
+	 * @return
+	 */
 	public char[] decipher(char[] in) {
 		/* Decipher some text */
 		char[] out = new char[in.length];
@@ -175,6 +218,12 @@ public class RotorMachine {
 		return out;
 	}
 
+	/**
+	 * Decipher a single character. Call setRotorsTo() before this to set starting position.
+	 * 
+	 * @param in
+	 * @return
+	 */
 	public char decipherChar(char in) {
 		if(!alphabet.hasChar(in)) {
 			return in;
@@ -195,5 +244,107 @@ public class RotorMachine {
 		/* Pass through in wiring */
 		out = inWiring.decipherChar(out);
 		return out;
+	}
+
+	/**
+	 * Create a rotor machine which has been defined in a file.
+	 * 
+	 * @param fileName source
+	 * @return RotorMachine object corresponding to defined machine.
+	 * @throws FileNotFoundException 
+	 */
+	public static RotorMachine fromFile(String fileName) throws FileNotFoundException, Exception {
+		BufferedReader file = new BufferedReader(new FileReader(fileName));
+		try {
+			/* Parse file top-down */
+			String line = file.readLine();
+			char[] lineCh;
+			
+			/* Goal is to break it down into a command and its arguments */
+			ArrayList<String> arg = new ArrayList<String>();
+			String command;
+			String[] commandArgs;
+
+			int i, start, end, depth;
+			while(line != null) {
+				lineCh = (line + " ").toCharArray();
+				arg.clear();
+				end = start = depth = 0;
+				
+				/* Parse line to get command */
+				for(i = 0; i < lineCh.length && depth >= 0; i++) {
+					switch(depth) {
+						case 0:
+							/* Not in word */
+							switch(lineCh[i]) {
+								case ' ':
+								case '\t':
+									/* Skip past whitespace */
+									start++; end++;
+									break;
+								case '#':
+									/* Stop parsing once we hit a comment */
+									depth = -1;
+									break;
+								case '"':
+									/* Hit an open-quote */
+									end = start = i + 1;
+									depth += 2;
+									break;
+								default:
+									/* Hit a word */
+									depth++;
+									end++;
+							}
+							break;
+						case 1:
+							/* In a word */
+							switch(lineCh[i]) {
+							case ' ':
+							case '\t':
+								arg.add(line.substring(start, end));
+								end = start = i + 1;
+								depth--;
+								break;
+							default:
+								end++;
+							}
+							break;
+						case 2:
+							/* In a quote */
+							switch(lineCh[i]) {
+							case '"':
+								depth--;
+								break;
+							default:
+								end++;
+							}
+						break;
+					}
+				}
+				
+				/* Take command and fiddle with it */
+				if(arg.size() >= 1) {
+					/* Split command into command name, and string of arguments */
+					command = arg.get(0);
+					commandArgs = new String[arg.size() - 1];
+					for(i = 1; i < arg.size(); i++) {
+						commandArgs[i - 1] = arg.get(i);
+						
+					}
+				}
+				
+				
+				line = file.readLine();			
+			}
+			return new RotorMachine();
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	private boolean processCommand(String command, String[] arg) {
+			/* Dummy function. Add later */
+			return true;
 	}
 }

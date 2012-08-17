@@ -5,6 +5,7 @@
  * @since	2012-09-10
  *
  */
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public class HebernRotorMachine extends RotorMachine {
@@ -12,8 +13,8 @@ public class HebernRotorMachine extends RotorMachine {
 	 * Construct single-rotor machine from known wiring and English alphabet
 	 */
 	public HebernRotorMachine() {
-		super(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 1, 1, false);
-
+		super(new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 1, 1);
+		
 		/* Change between wiring presets here */
 		//machine1();		 /* Week 1 machine */
 		//machine2(false);   /* Week 2 machine with unmixed out-wiring */

@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.awt.EventQueue;
+import java.io.FileNotFoundException;
 /**
  * Basic simulation of a Hebern rotor machine. 
  * 
@@ -17,6 +18,17 @@ public class HebernMachineSimulator {
 	 * @param args command-line arguments
 	 */
 	public static void main(String[] args) {
+		try {
+			RotorMachine foo = RotorMachine.fromFile("week01.machine");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		machine = new HebernRotorMachine();
 		if(args.length == 0 || args[0].equals("--gui")) {
 			System.out.println("Starting graphical interface. Try --cli for command-line version.");
