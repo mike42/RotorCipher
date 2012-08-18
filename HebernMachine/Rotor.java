@@ -5,6 +5,7 @@
  * @since	2012-09-08
  */
 public class Rotor {
+	String name;
 	Alphabet alphabet;
 	
 	char[][] encipherTable;	/* Table of character substitutions */
@@ -13,12 +14,16 @@ public class Rotor {
 	int numPositions;		/* Number of possible positions this rotor can take (=length of the alphabet) */
 
 	/**
-	 * @param alphabet 	The alphabet to use. This must be the same for all rotors on a given machine
+	 * @param alphabet 	The alphabet to use. Should be the same for all rotors on the machine
 	 * @param pair 		Array of 2-character strings representing the substitutions that this rotor makes, eg {"AB", "BA"} 
 	 */
 	public Rotor(Alphabet alphabet, String[] pair) {
+		this(alphabet);
+		setWiring(pair);
+	}
+
+	public Rotor(Alphabet alphabet) {
 		/* Cannot override more characters than the length of the alphabet */
-		assert(pair.length <= alphabet.length());
 		this.alphabet = alphabet;
 		numPositions = alphabet.length();
 		encipherTable = new char[numPositions][numPositions];
@@ -27,13 +32,18 @@ public class Rotor {
 		int i;
 		char c;
 
-		/* Propagate A-A, B-B, etc, to do no transformations for undefined pairs */
+		/* Propagate A-A, B-B, etc, so that this rotor does nothing by default */
 		for(i = 0; i < numPositions; i++) {
 			c = alphabet.getCharFromIndex(i);
 			propagate(encipherTable, c, c);
 			propagate(decipherTable, c, c);
 		}
-
+	}
+	
+	public boolean setWiring(String[] pair) {
+		assert(pair.length <= alphabet.length());
+		int i;
+		
 		/* Apply defined substitutions */
 		char[] pairChar;
 		for(i = 0; i < pair.length; i++) {
@@ -44,8 +54,9 @@ public class Rotor {
 			propagate(encipherTable,	pairChar[1], pairChar[0]);
 			propagate(decipherTable,	pairChar[0], pairChar[1]);
 		}
+		return true;
 	}
-
+	
 	/**
 	 * Add a given wire, calculating what it does for each possible rotor position
 	 * 
@@ -112,5 +123,13 @@ public class Rotor {
 	public char decipherChar(char c) {
 		int inID = alphabet.getIndexFromChar(c);
 		return decipherTable[position][inID];
+	}
+
+	public boolean setName(String name) {
+		if(name != null && !name.equals("")) {
+			this.name = name;
+			return false;
+		}
+		return false;
 	}
 }

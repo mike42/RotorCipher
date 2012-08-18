@@ -1,6 +1,5 @@
 # Machine
 name "Week 1 Rotor Machine"
-baseMachine Hebern
 
 # Wiring
 rotorCount 1
@@ -8,5 +7,5 @@ rotor 1 name "Rotor 1"
 rotor 1 wiring "FA TB QC JD VE AF XG MH WI DJ SK NL HM LN RO UP CQ OR KS BT PU EV IW GX ZY YZ"
 
 # Default config
-select 1
-set A
+selectRotors 1
+setRotorsTo A

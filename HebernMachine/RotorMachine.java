@@ -23,6 +23,8 @@ public class RotorMachine {
 	/* Adjustible in/out wiring */
 	Rotor inWiring;
 	Rotor outWiring;
+	
+	String name;
 
 	/**
 	 * Constructor
@@ -33,6 +35,7 @@ public class RotorMachine {
 	 * @param hasPlugBoard		True if the machine also has a plugboard, false otherwise
 	 */
 	public RotorMachine(Alphabet alphabet, int rotorCount, int rotorLibrarySize) {
+		setName("Untitled");
 		setAlphabet(alphabet);
 		
 		/* Default in-and-out wiring is 1-1 */
@@ -40,6 +43,7 @@ public class RotorMachine {
 		outWiring = new Rotor(alphabet, new String[0]);
 
 		/* Set number of rotors in machine */
+
 		setRotorCount(rotorCount);
 		setRotorLibrarySize(rotorLibrarySize);
 	}
@@ -65,31 +69,58 @@ public class RotorMachine {
 	 * Set the number of rotors which you can select from
 	 * 
 	 * @param rotorLibrarySize	number of rotors which can be selected from
+	 * @return false if the size was invalid, true otherwise
 	 */
-	public void setRotorLibrarySize(int rotorLibrarySize) {
+	public boolean setRotorLibrarySize(int rotorLibrarySize) {
 		int rotorCount = selectedRotors.length;
 		/* Must have enough selectable rotors to fill machine */
-		assert(rotorLibrarySize >= rotorCount);
-		rotorLibrary = new Rotor[rotorLibrarySize];
-		
-		/* Fill rotor library with blank rotors */
-		for(int i = 0; i < rotorLibrary.length; i++) {
-			rotorLibrary[i] = new Rotor(alphabet, new String[0]);
-			if(i < rotorCount) {
-				/* Selecting the first few rotors from library by default */
-				selectedRotors[i] = i;
+		if(rotorLibrarySize >= rotorCount) {
+			rotorLibrary = new Rotor[rotorLibrarySize];
+			
+			/* Fill rotor library with blank rotors */
+			for(int i = 0; i < rotorLibrary.length; i++) {
+				rotorLibrary[i] = new Rotor(alphabet);
+				if(i < rotorCount) {
+					/* Selecting the first few rotors from library by default */
+					selectedRotors[i] = i;
+				}
 			}
+			return true;
 		}
+		return false;
 	}
 		
+	public int getRotorLibrarySize() {
+		return rotorLibrary.length;
+	}
+			
 	/**
-	 * Set the number of rotors which can be used at a time.
+	 * Set machine name
 	 * 
-	 * @param rotorCount Number of rotors which can be selected at ocne
+	 * @param name	The new name. Must not be null or empty.
+	 * @return		True if the name was changed, false if the new name was invalid.
 	 */
-	public void setRotorCount(int rotorCount) {
+	public boolean setName(String name) {
+		if(name != null && !name.equals("")) {
+			this.name = name;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Set the number of rotors which can be used simultaneously on this machine.
+	 * 
+	 * @param rotorCount Number of rotors which can be selected at once.
+	 * @return 
+	 */
+	public boolean setRotorCount(int rotorCount) {
 		/* Initialise selected rotors */
-		selectedRotors = new int[rotorCount];
+		if(rotorCount > 0) {
+			selectedRotors = new int[rotorCount];
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -219,10 +250,10 @@ public class RotorMachine {
 	}
 
 	/**
-	 * Decipher a single character. Call setRotorsTo() before this to set starting position.
+	 * Decipher a single character. Call setRotorsTo() before this to set starting position. The machine's rotors may move as a side-effect of calling this method.
 	 * 
-	 * @param in
-	 * @return
+	 * @param in The character to decipher
+	 * @return	The plaintext for this character.
 	 */
 	public char decipherChar(char in) {
 		if(!alphabet.hasChar(in)) {
@@ -254,7 +285,10 @@ public class RotorMachine {
 	 * @throws FileNotFoundException 
 	 */
 	public static RotorMachine fromFile(String fileName) throws FileNotFoundException, Exception {
+		/* Open file and create new machine */
 		BufferedReader file = new BufferedReader(new FileReader(fileName));
+		RotorMachine machine = new RotorMachine();
+		
 		try {
 			/* Parse file top-down */
 			String line = file.readLine();
@@ -330,21 +364,101 @@ public class RotorMachine {
 					commandArgs = new String[arg.size() - 1];
 					for(i = 1; i < arg.size(); i++) {
 						commandArgs[i - 1] = arg.get(i);
-						
 					}
+					
+					processCommand(machine, command, commandArgs);
 				}
-				
 				
 				line = file.readLine();			
 			}
-			return new RotorMachine();
+			
+			/* Successfully loaded machine, yay :-) */
+			return machine;
 		} catch (IOException e) {
 			return null;
 		}
 	}
 	
-	private boolean processCommand(String command, String[] arg) {
-			/* Dummy function. Add later */
-			return true;
+	private static boolean processCommand(RotorMachine machine, String command, String[] arg) throws IllegalArgumentException {
+		int i;
+	/*	# Machine
+		name "Week 1 Rotor Machine"
+		
+		# Wiring
+		rotorCount 1
+		rotor 1 name "Rotor 1"
+		rotor 1 wiring "FA TB QC JD VE AF XG MH WI DJ SK NL HM LN RO UP CQ OR KS BT PU EV IW GX ZY YZ"
+		
+		# Default config
+		selectRotors 1
+		setRotorsTo A */
+		try {
+			if(command.equals("name")) {
+				/* Set rotor name */
+				if(arg.length == 1) {
+					return machine.setName(arg[0]);
+				} else {
+					throw new IllegalArgumentException(command + " expects 1 argument, but got " + arg.length);
+				}
+			} else if(command.equals("rotorLibrarySize")) {
+				/* Set rotor library size */
+				if(arg.length == 1) {
+					i = Integer.parseInt(arg[0]);
+					return machine.setRotorLibrarySize(i);
+				} else {
+					throw new IllegalArgumentException(command + " expects 1 argument, but got " + arg.length);
+				}
+			} else if(command.equals("rotorCount")) {
+				/* Set rotor count */
+				if(arg.length == 1) {
+					i = Integer.parseInt(arg[0]);
+					return machine.setRotorCount(i);
+				} else {
+					throw new IllegalArgumentException(command + " expects 1 argument, but got " + arg.length);
+				}
+			} else if(command.equals("rotor")) {
+				/* Set rotor count */
+				if(arg.length >= 2) {
+					Rotor rotor;
+					i = Integer.parseInt(arg[0]);
+					if(i < 0) {
+						throw new IllegalArgumentException("Rotor index must be 1 or greater");
+					}
+					i--; /* Take rotor indices from 1 rather than 0 */
+					
+					/* Load up rotor */
+					if((rotor = machine.getRotor(i)) != null) {
+						/* Got rotor. Check operation */
+						if(arg[1].equals("name")) {
+							/* Set rotor name */
+							if(arg.length == 3) {
+								rotor.setName(arg[2]);
+							} else {
+								throw new IllegalArgumentException("Wrong number of arguments");
+							}
+						} else if(arg[1].equals("wiring")) {
+							/* Set rotor wiring */
+							//rotor.setWiring(... arg[2].split(" ") ... );
+							
+						} else {
+							throw new IllegalArgumentException("There is no rotor option '" + arg[1] + "'.");
+						}
+					} else {
+						throw new IllegalArgumentException(command + " couldn't retrieve the rotor. Try calling rotorLibrarySize first with " + i + " or higher");
+					}
+				} else {
+					throw new IllegalArgumentException(command + " expects at least 2 arguments, but got " + arg.length);
+				}
+			} else if(command.equals("selectRotors")) {
+				/* Select rotors to use */
+				
+			} else if(command.equals("setRotorsTo")) {
+				/* Set rotor initial position */
+				
+			}
+		} catch(NumberFormatException e) {
+			throw new IllegalArgumentException("Integer expected");
+		}
+		return false;
 	}
 }
