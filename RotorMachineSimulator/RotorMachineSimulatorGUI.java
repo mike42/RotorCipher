@@ -19,14 +19,14 @@ import java.awt.FlowLayout;
  * @since	2012-09-10
  *
  */
-public class HebernMachineGUI {
+public class RotorMachineSimulatorGUI {
 
 	private JFrame frmRotorCiphers;
 
 	/**
 	 * Create the application.
 	 */
-	public HebernMachineGUI() {
+	public RotorMachineSimulatorGUI() {
 		initialise();
 		frmRotorCiphers.setVisible(true);
 	}
@@ -59,9 +59,9 @@ public class HebernMachineGUI {
 		machinePanelFooter.setLayout(new BorderLayout(0, 0));
 
 		/* Initialise rotor spinner and machine class to be the same */
-		String[] alphabetStr = HebernMachineSimulator.machine.alphabet.toStringArray();
-		char c = HebernMachineSimulator.machine.alphabet.getCharFromIndex(0);
-		HebernMachineSimulator.machine.setRotorsTo(new char[] {c});
+		String[] alphabetStr = RotorMachineSimulator.machine.alphabet.toStringArray();
+		char c = RotorMachineSimulator.machine.alphabet.getCharFromIndex(0);
+		RotorMachineSimulator.machine.setRotorsTo(new char[] {c});
 		
 		JPanel machineButtonPanel = new JPanel();
 		machinePanelFooter.add(machineButtonPanel, BorderLayout.CENTER);
@@ -97,10 +97,10 @@ public class HebernMachineGUI {
 					public void actionPerformed(ActionEvent arg0) {
 						/* Set machine rotor to the setting in the interface */
 						String key = spnMachineRotor.getValue().toString();
-						HebernMachineSimulator.machine.setRotorsTo(key.toCharArray());
+						RotorMachineSimulator.machine.setRotorsTo(key.toCharArray());
 
 						char[] text = txtMachineInput.getText().toUpperCase().toCharArray();
-						text = HebernMachineSimulator.machine.encipher(text);
+						text = RotorMachineSimulator.machine.encipher(text);
 						txtMachineInput.setText(new String(text));
 					}
 				});
@@ -108,10 +108,10 @@ public class HebernMachineGUI {
 				btnDecipher.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String key = spnMachineRotor.getValue().toString();
-						HebernMachineSimulator.machine.setRotorsTo(key.toCharArray());
+						RotorMachineSimulator.machine.setRotorsTo(key.toCharArray());
 
 						char[] text = txtMachineInput.getText().toUpperCase().toCharArray();
-						text = HebernMachineSimulator.machine.decipher(text);
+						text = RotorMachineSimulator.machine.decipher(text);
 						txtMachineInput.setText(new String(text).toLowerCase());
 					}
 				});
@@ -125,9 +125,9 @@ public class HebernMachineGUI {
 		JPanel formHeader = new JPanel();
 		frmRotorCiphers.getContentPane().add(formHeader, BorderLayout.NORTH);
 		
-		JLabel lblHebernRotorMachine = new JLabel("Hebern Rotor Machine");
-		lblHebernRotorMachine.setHorizontalAlignment(SwingConstants.CENTER);
-		formHeader.add(lblHebernRotorMachine);
+		JLabel lblRotorMachine = new JLabel(RotorMachineSimulator.machine.getName());
+		lblRotorMachine.setHorizontalAlignment(SwingConstants.CENTER);
+		formHeader.add(lblRotorMachine);
 	}
 }
 

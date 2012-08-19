@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.awt.EventQueue;
+import java.io.FileNotFoundException;
 
 /**
  * Basic simulation of a Hebern rotor machine. 
@@ -9,8 +10,8 @@ import java.awt.EventQueue;
  * @bugs cockroaches, beetles, and earwigs.
  */
 
-public class HebernMachineSimulator {
-	static public HebernRotorMachine machine;
+public class RotorMachineSimulator {
+	static public RotorMachine machine;
 
 	/**
 	 * Parse arguments and launch the requested interface.
@@ -18,34 +19,34 @@ public class HebernMachineSimulator {
 	 * @param args command-line arguments
 	 */
 	public static void main(String[] args) {
+		String fileName;
+		if(args.length >= 1) {
+			fileName = args[0];
+		} else {
+			fileName = "week02b.machine";
+		}
 		
-		/* Demonstration of loading the week1 rotor machine from a file */
-	/*	try {
-			RotorMachine foo = RotorMachine.fromFile("week01.machine");
-			foo.setRotorsTo("Z".toCharArray());
-			System.out.println(foo.encipher("ENEMY".toCharArray()));
+		try {
+			machine = RotorMachine.fromFile(fileName);
+			if(args.length < 2 || args[1].equals("--gui")) {
+				System.out.println("Starting graphical interface. Try --cli for command-line version.");
+				simulatorGUI();
+			} else if(args[1].equals("--cli")) {
+				simulatorCLI();
+			} else {
+				System.out.println("Invalid argument. Try --cli or --gui to launch the interface you are after.");
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} */
-		
-		
-		machine = new HebernRotorMachine();
-		if(args.length == 0 || args[0].equals("--gui")) {
-			System.out.println("Starting graphical interface. Try --cli for command-line version.");
-			hebernGUI();
-		} else if(args[0].equals("--cli")) {
-			hebernCLI();
-		} else {
-			System.out.println("Invalid argument. Try --cli or --gui to launch the interface you are after.");
 		}
 	}
 
 	/**
 	 * Interface with machine via command-line
 	 */
-	final private static void hebernCLI() {
+	final private static void simulatorCLI() {
 		String action, setting, todo; /* Next rotor setting, and next text block to encipher/decipher */
 		Scanner input = new Scanner(System.in);
 
@@ -87,14 +88,14 @@ public class HebernMachineSimulator {
 	/**
 	 * Launch graphical interface
 	 */
-	private static void hebernGUI() {
+	private static void simulatorGUI() {
 		EventQueue.invokeLater(new Runnable() {
 			@SuppressWarnings("unused")
-			private HebernMachineGUI window;
+			private RotorMachineSimulatorGUI window;
 			
 			public void run() {
 				try {
-					window = new HebernMachineGUI();
+					window = new RotorMachineSimulatorGUI();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

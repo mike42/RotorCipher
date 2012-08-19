@@ -113,6 +113,10 @@ public class RotorMachine {
 		return false;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	/**
 	 * Set the number of rotors which can be used simultaneously on this machine.
 	 * 
@@ -158,9 +162,11 @@ public class RotorMachine {
 	 * Set in-wiring (where each letter connects on plugboard)
 	 * 
 	 * @param newInWiring	A rotor object representing the wiring
+	 * @return 
 	 */
-	public void setInWiring(Rotor newInWiring) {
+	public boolean setInWiring(Rotor newInWiring) {
 		this.inWiring = newInWiring;
+		return true;
 	}
 
 	/**
@@ -168,8 +174,9 @@ public class RotorMachine {
 	 * 
 	 * @param newOutWiring	A rotor object representing the wiring
 	 */
-	public void setOutWiring(Rotor newOutWiring) {
+	public boolean setOutWiring(Rotor newOutWiring) {
 		this.outWiring = newOutWiring;
+		return true;
 	}
 
 	/**
@@ -462,16 +469,8 @@ public class RotorMachine {
 					/* Load given pairs, and alphabet */
 					String[] pair = arg[2].split(" ");
 					Alphabet alphabet = machine.getAlphabet();
-
-					boolean check = true;
-					for(i = 0; i < pair.length && check; i++) {
-						/* Verify that this list contains only pairs of characters in the alphabet */
-						if(pair[i].length() != 2 || !alphabet.hasChar(pair[i].charAt(0)) || !alphabet.hasChar(pair[i].charAt(1))) {
-							check = false;
-						}
-					}
-
-					if(!check) {
+					
+					if(!validateWiring(alphabet, pair)) {
 						/* Check failed */
 						throw new IllegalArgumentException("Invalid rotor wiring. Must contain pairs of letters separated by spaces.");
 					}
@@ -504,11 +503,46 @@ public class RotorMachine {
 				} else {
 					throw new IllegalArgumentException(command + " expects 1 argument, but got " + arg.length);
 				}
+			} else if(command.equals("inWiring") || command.equals("outWiring")) {
+				/* In and out wiring */
+				if(arg.length != 1) {
+					throw new IllegalArgumentException(command + " expects 1 argument, but got " + arg.length);
+				}
+				
+				/* Load given pairs, and alphabet */
+				String[] pair = arg[0].split(" ");
+				Alphabet alphabet = machine.getAlphabet();
+				
+				if(!validateWiring(alphabet, pair)) {
+					/* Check failed */
+					throw new IllegalArgumentException("Invalid rotor wiring. Must contain pairs of letters separated by spaces.");
+				}
+
+				/* Okay, set the wiring */
+				Rotor rotor = new Rotor(alphabet);
+				rotor.setWiring(pair);
+				
+				/* Set in or out wiring as appropriate */
+				if(command.equals("inWiring")) {
+					return machine.setInWiring(rotor);
+				} else {
+					return machine.setOutWiring(rotor);
+				}
 			} else {
 				throw new Exception("Invalid command: " + command);
 			}
 		} catch(NumberFormatException e) {
 			throw new IllegalArgumentException("Integer expected");
 		}
+	}
+	
+	private static boolean validateWiring(Alphabet alphabet, String[] pair) {
+		for(int i = 0; i < pair.length; i++) {
+			/* Verify that this list contains only pairs of characters in the alphabet */
+			if(pair[i].length() != 2 || !alphabet.hasChar(pair[i].charAt(0)) || !alphabet.hasChar(pair[i].charAt(1))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
