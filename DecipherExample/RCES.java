@@ -9,11 +9,11 @@ public class RotorMachineDecoder {
 
 		System.out.print("Enter rotor position: ");
 		rotorpos = input.nextLine().toUpperCase();
-		System.out.println(rotorpos);
+	//	System.out.println(rotorpos);
 
-		System.out.println("Enter plaintext: ");
-		plain = input.nextLine().toUpperCase();
-		System.out.println(plain);
+	//	System.out.println("Enter plaintext: ");
+	//	plain = input.nextLine().toUpperCase();
+	//	System.out.println(plain);
 
 		System.out.println("Enter ciphertext: ");
 		cipher = input.nextLine().toUpperCase();
