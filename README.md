@@ -1,8 +1,11 @@
 RotorCipher
 ===========
 
-Tools and simulations for rotor ciphers.
+Tools and simulations for single-rotor cipher machines.
 
-Compile and run RotorMachineSimulator.java.
+To compile:
+    cd src
+    make
 
-For building cipher tables from plaintext/ciphertext, run RotorMachineDecoder.
+For some things to try out, see doc/readme.html
+

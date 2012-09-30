@@ -1,0 +1,98 @@
+<html>
+<head>
+	<style type="text/css">
+		dt { font-family: monospace;}
+		h2 {border-bottom: 1px solid #888; }
+		pre {padding-left: 1em; }
+	</style>
+</head>
+<body>
+	<h1>RotorCipher</h1>
+	Tools and simulators for single-rotor cipher machines.
+
+	<h2>1. Compiling</h2>
+	<p>To compile, open the <tt>src</tt> directory in the terminal, and type <tt>make</tt>.</p>
+
+	<h2>2. Command-line usage</h2>
+	<p>The following switches apply to all modes:</p>
+	<dl>
+		<dt>--help</dt>
+		<dd>Show basic usage information.</dd>
+		<dt>--cli</dt>
+		<dd>Do not launch GUI interface.</dd>
+		<dt>--gui</dt>
+		<dd>Use GUI rather than CLI version (this is the default).</dd>
+		<dt>--rotorpos R</dt>
+		<dd>Position to start the rotor from. Default is A</dd>
+		<dt>--output file</dt>
+		<dd>File to dump output to. Use "-" for standard output.</dd>
+	</dl>
+	<h3>2.1 Simulator mode</h3>
+	<dl>
+		<dt>--simulate file.machine</dt>
+		<dd>File to read machine definiton from. Set to "-" to generate a random machine definition.</dd>
+		<dt>--encipher | --decipher | --dump</dt>
+		<dd>Use encipher or decipher mode, or dump the machine definiton to a file. Implies <tt>--cli</tt>.</dd>
+		<dt>--input file</dt>
+		<dd>Input file for the operation, or "-" to read from standard input (this is the default). Only used for <tt>--encipher</tt> or <tt>--decipher</tt>.</dd>
+	</dl>
+
+	<h3>2.2 Ciphertext/plaintext decoder mode</h3>
+	<dl>
+		<dt>--known-plaintext</dt>
+		<dd>Attempt to figure out wiring based on plaintext/ciphertext. You will also be prompted for a rotor position if <tt>--rotorpos</tt> is not specified.</dd>
+	</dl>
+
+	<h2>4. Machine files</h2>
+	<p>In order to exchange enciphered messages, both the sender and receiver must have:</p>
+	<ol>
+		<li>Machines with the same wiring</li>
+		<li>The same rotor starting-position</li>
+	</ol>
+	<p>This program will load and save files in <tt>.machine</tt> format, which is simply a startup script. Use one of the example machines from the <tt>files</tt> folder to start.</p>
+	<p>Once implemented, you will be able to generate your own (random) <tt>.machine</tt> files like this:</p>
+	<pre>java RotorCipher --simulate - --dump --output myfile.machine</pre>
+
+	<h2>4. Usage examples</h2>
+	<h3>4.1 Enciphering and deciphering messages (GUI)</h3>
+	<p>To launch the GUI using one of the example files, use this command from the <tt>bin</tt> folder:</p>
+	<pre>java RotorCipher --simulate ../files/week01.machine</pre>
+
+	<h3>4.2 Interactive command-line mode</h3>
+	<p>To launch the same simulator in command-line mode, tack <tt>--cli</tt> option onto the command:</p>
+	<pre>java RotorCipher --cli --simulate ../files/week01.machine</pre>
+	<p>We can then encipher "testing testing" at Rotor position B:
+	<pre>Encipher, decipher, or quit? (e / d / q): e
+Set rotor: B
+Plaintext: testing testing
+<b>CJEULIJ HHYORFP</b></pre>
+<p>And as a sanity check, we can try to return to the plaintext from this output:</p>
+<pre>Encipher, decipher, or quit? (e / d / q): d
+Set rotor: B
+Ciphertext: CJEULIJ HHYORFP
+<b>testing testing</b></pre>
+<p>It is worth noting that without the correct rotor position, random junk will be given:</p>
+<pre>Encipher, decipher, or quit? (e / d / q): d
+Set rotor: C
+Ciphertext: CJEULIJ HHYORFP
+<b>xhyzdub ezggmak</b></pre>
+	<h3>4.3 Non-interactive mode</h3>
+<p>You can also read from a file, enciphering or deciphering it line-by-line. After each line, the rotor is returned to the starting position.</p>
+<p>For example, to encipher "Hello this is a message" and store it to <tt>foo.txt</tt>, we could use this rather long invocation:</p>
+<pre>echo "Hello this is a message" | java RotorCipher --simulate ../files/week02a.machine --rotorpos M --encipher --output foo.txt</pre>
+<p>And sure enough, our enciphered message is now securely stored in <tt>foo.txt</tt>:</p>
+<pre>$ cat foo.txt 
+QCVXA MUGY FQ P TDHUTFF</pre>
+<p>To decode the message, we use <tt>--input foo.txt</tt>, and change the <tt>--encipher</tt> switch to <tt>--decipher</tt>:
+<pre>$ java RotorCipher --simulate ../files/week02a.machine --rotorpos M --decipher --input foo.txt
+hello this is a message</pre>
+	<h3>4.4 Using with minimodem to transmit messages</h3>
+<p>If you want to encipher some communications over-the-wire, then pipe output to <a href="http://www.whence.com/minimodem/">minimodem</a> like this:
+<pre>java RotorCipher --simulate ../files/week02a.machine --rotorpos q --encipher | minimodem --tx 30</pre>
+<p>And on the other end, use <tt>--decipher</tt> with minimodem's <tt>--rx</tt> switch:</p>
+<pre>minimodem --rx 30 | java RotorCipher --simulate ../files/week02a.machine --rotorpos q --decipher</pre>
+	<h3>4.5 Finding rotor wiring from plaintext/ciphertext pair</h3>
+<p>If you have plaintext and corresponding ciphertext, then you can find out how the machine was wired. This feature is not yet fully implemented, but you can see what stage it is at with the following command:</p>
+<pre>java RotorCipher --known-plaintext --cli < ../files/week02a-decipher-input.txt</pre>
+</body>
+</html>

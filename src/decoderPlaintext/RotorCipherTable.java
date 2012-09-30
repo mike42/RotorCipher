@@ -1,5 +1,7 @@
+package decoderPlaintext;
 import java.util.ArrayList;
 import java.util.Collections;
+import simulator.Alphabet;
 
 public class RotorCipherTable {
 	CipherTableColumn[] column;
@@ -67,7 +69,7 @@ public class RotorCipherTable {
 		}
 		return outp;
 	}
-	
+
 	/**
 	 * Extract input wiring from the table assuming the output is not mixed
 	 * 

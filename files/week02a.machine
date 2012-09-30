@@ -1,0 +1,15 @@
+# Machine
+name "Week 2 Rotor Machine (Mixed input only)"
+
+# Wiring
+rotorCount 1
+
+# Mixed input
+inWiring "AQ BW CE DR ET FY GU HI IO JP KA LS MD NF OG PH QJ RK SL TZ UX VC WV XB YN ZM"
+
+rotor 1 name "Rotor 1"
+rotor 1 wiring "GA AB DC BD OE CF TG KH NI UJ ZK XL IM WN HO FP QQ YR JS VT PU MV EW LX SY RZ"
+
+# Default config
+selectRotors 1
+setRotorsTo A

@@ -1,3 +1,5 @@
+package simulator;
+
 /**
  * Simulates a single rotor on a rotor machine
  * 
@@ -131,5 +133,9 @@ public class Rotor {
 			return false;
 		}
 		return false;
+	}
+	
+	public char getPositionChar() {
+		return alphabet.getCharFromIndex(position);
 	}
 }

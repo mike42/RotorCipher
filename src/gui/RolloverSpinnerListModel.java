@@ -1,3 +1,5 @@
+package gui;
+
 /**
  * Spinner model which wraps around at the end of the list (in the same way that rotors would)
  * 

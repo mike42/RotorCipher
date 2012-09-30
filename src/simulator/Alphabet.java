@@ -1,3 +1,4 @@
+package simulator;
 /**
  * Class for working with a user-defined alphabet for use in a cipher.
  * 

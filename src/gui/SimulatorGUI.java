@@ -1,3 +1,5 @@
+package gui;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
@@ -8,6 +10,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+
+import simulator.RotorMachineSimulator;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
@@ -19,14 +24,14 @@ import java.awt.FlowLayout;
  * @since	2012-09-10
  *
  */
-public class RotorMachineSimulatorGUI {
+public class SimulatorGUI {
 
 	private JFrame frmRotorCiphers;
 
 	/**
 	 * Create the application.
 	 */
-	public RotorMachineSimulatorGUI() {
+	public SimulatorGUI() {
 		initialise();
 		frmRotorCiphers.setVisible(true);
 	}
@@ -59,9 +64,7 @@ public class RotorMachineSimulatorGUI {
 		machinePanelFooter.setLayout(new BorderLayout(0, 0));
 
 		/* Initialise rotor spinner and machine class to be the same */
-		String[] alphabetStr = RotorMachineSimulator.machine.alphabet.toStringArray();
-		char c = RotorMachineSimulator.machine.alphabet.getCharFromIndex(0);
-		RotorMachineSimulator.machine.setRotorsTo(new char[] {c});
+		String[] alphabetStr = RotorMachineSimulator.machine.getAlphabet().toStringArray();
 		
 		JPanel machineButtonPanel = new JPanel();
 		machinePanelFooter.add(machineButtonPanel, BorderLayout.CENTER);
@@ -79,6 +82,8 @@ public class RotorMachineSimulatorGUI {
 				spnMachineRotor.setBounds(12, 1, 36, 23);
 				machineButtonPanel.add(spnMachineRotor);
 				spnMachineRotor.setModel(new RolloverSpinnerListModel(alphabetStr));
+				char c = RotorMachineSimulator.machine.getRotor(0).getPositionChar();
+				spnMachineRotor.setValue(new String(new char[] {c}));
 				
 				JPanel panel = new JPanel();
 				machinePanelFooter.add(panel, BorderLayout.WEST);
@@ -107,6 +112,7 @@ public class RotorMachineSimulatorGUI {
 				
 				btnDecipher.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
+						/* Get rotor position and use it */
 						String key = spnMachineRotor.getValue().toString();
 						RotorMachineSimulator.machine.setRotorsTo(key.toCharArray());
 
