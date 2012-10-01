@@ -1,4 +1,7 @@
 package simulator;
+
+import java.util.Random;
+
 /**
  * Class for working with a user-defined alphabet for use in a cipher.
  * 
@@ -149,4 +152,24 @@ public class Alphabet {
 		System.arraycopy(letter, 0, outp, 0, letter.length);
         return outp;
 	}
+	
+	/**
+	 * @return The alphabet, in random order.
+	 */
+	public char[] getRandomPermutation() {
+		Random generator = new Random();
+		char[] inp = this.toCharArray();
+		int j;
+		char temp;
+		for(int i = 0; i < inp.length - 1; i++) {
+			j = generator.nextInt(inp.length - i) + i; /* Index to swap with */
+			if(i != j) { /* Swap */
+				temp = inp[i];
+				inp[i] = inp[j];
+				inp[j] = temp;
+			}
+		}
+		return inp;
+	}
+
 }

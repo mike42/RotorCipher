@@ -1,0 +1,14 @@
+# Automatically generated machine definition, created 2012-10-01
+
+# Machine name
+name "Default Machine"
+
+# Mixed input
+inWiring "AI BF CP DK EL FV GH HA IS JO KR LW MT NC OQ PD QE RX SM TZ UN VB WU XG YY ZJ"
+
+# Rotor wiringrotor 1 name "Rotor 1"
+rotor 1 wiring "YA IB ZC TD FE EF VG LH OI BJ JK DL NM RN UO PP HQ XR MS QT AU CV SW KX GY WZ"
+
+# Default config
+selectRotors 1
+setRotorsTo F

@@ -1,10 +1,13 @@
-import decoderPlaintext.RotorMachineDecoder;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
+import decoderPlaintext.RotorMachineDecoder;
 import simulator.RotorMachine;
 import simulator.RotorMachineSimulator;
 
 class RotorCipher {
-	public static void main(String args[]) {
+	public static void main(String args[]) throws UnsupportedEncodingException {
 		/* Default command-line options */
 		boolean switchHelp = false;
 		boolean switchCli = false;
@@ -37,7 +40,7 @@ class RotorCipher {
 				} else if(args[i].equals("--simulate")) {			collect = "--simulate";
 				} else if(args[i].equals("--encipher")) {			simMode = "encipher"; 	switchCli = true;
 				} else if(args[i].equals("--decipher")) {			simMode = "decipher"; 	switchCli = true;
-				} else if(args[i].equals("--dump")) {				simMode = "dump";		switchCli = true;
+				} else if(args[i].equals("--new")) {				simMode = "new";		switchCli = true;
 				} else if(args[i].equals("--input")) {				collect = "--input";
 				} else if(args[i].equals("--known-plaintext")) {	switchKnownPlaintext = true;
 				} else {
@@ -49,24 +52,30 @@ class RotorCipher {
 		
 		if(invalid) {
 			/* Didn't understand command-line arguments */
-			System.out.println("invalid");
+			System.out.println("An invalid option was given. Please check the documentation.");
 		} else if(switchHelp) {
 			/* Help */
-			System.out.println("help");
+			System.out.println("See ../doc/readme.html for usage.");
 		} if(switchKnownPlaintext) {
 			/* Known plaintext mode */
 			if(switchCli) {
 				RotorMachineDecoder.decodeCLI(rotorPos);
 			} else {
 				// TODO
-				System.out.println("GUI for finding rotor wiring has not been implemented. Try --cli");
+				System.out.println("GUI for finding rotor wiring has not been implemented. Use --cli");
 			}
 		} else {
 			/* Simulator mode */
-			if(simulate == "-") {
-				// TODO
-				System.err.println("Randomly generated machines not yet implemented");
+			if(simMode.equals("new")) {
+				RotorMachineSimulator.randomMachine(output);
 				return;
+			} else if (simulate.equals("-")) {
+				String path = RotorCipher.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+				String decodedPath = URLDecoder.decode(path, "UTF-8");
+				if(decodedPath.endsWith(".jar")) {
+					decodedPath = new File(decodedPath).getParent();
+				}
+				simulate = decodedPath + "/../files/default.machine";		
 			}
 			
 			/* Load machine */

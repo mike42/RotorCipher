@@ -4,13 +4,17 @@ JCC = javac
 RM = rm
 RMDIR = rmdir
 JAR = jar
+CD = cd
+CHMOD = chmod
 
 default:
 	$(JCC) RotorCipher.java -d $(BINPATH)
 
 jar:
 	$(JCC) RotorCipher.java -d $(BINPATH)
-	$(JAR) -cfe $(BINPATH)RotorCipher.jar RotorCipher *
+	cd $(BINPATH); \
+		$(JAR) -cfe RotorCipher.jar RotorCipher *; \
+		$(CHMOD) +x RotorCipher.jar;
 	$(RM) $(BINPATH)*.class $(BINPATH)*/*.class
 	$(RMDIR) $(BINPATH)*/
 

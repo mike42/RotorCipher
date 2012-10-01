@@ -2,6 +2,8 @@ package simulator;
 
 import gui.SimulatorGUI;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import java.awt.EventQueue;
 import java.io.BufferedReader;
@@ -28,10 +30,7 @@ public class RotorMachineSimulator {
 	 * Interface with machine via command-line
 	 */
 	final public static void startCLI(String simMode, String input, String output, String rotorPos) {
-		if (simMode.equals("dump")) {
-			// TODO: Dump machine definition
-			System.err.println("Printing machine definitions has not yet been implemented.");
-		} else if(simMode.equals("encipher") || simMode.equals("decipher")) {
+		if(simMode.equals("encipher") || simMode.equals("decipher")) {
 			/* Rotor position to set to */
 			char[] setting;
 			if(rotorPos.length() > 0) {
@@ -142,6 +141,83 @@ public class RotorMachineSimulator {
 			}
 		});
 	}
+	
+	/**
+	 * Generate a random rotor machine
+	 * 
+	 * @param output Destination for new machine
+	 */
+	public static void randomMachine(String output){
+		try {
+			BufferedWriter out;
+			if(output.equals("-")) {
+				out = new BufferedWriter(new OutputStreamWriter(System.out));
+			} else {
+				out = new BufferedWriter(new FileWriter(output));
+			}
+			String timestamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime());
+			out.write("# Automatically generated machine definition, created " + timestamp);
+			out.newLine();
+			out.newLine();
+			out.write("# Machine name");
+			out.newLine();
+			out.write("name \"Random Machine " + timestamp + "\"");
+			out.newLine();
+			out.newLine();
+			
+			Alphabet alphabet = new Alphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+			
+			/* Input wiring */
+			out.write("# Mixed input");
+			out.newLine();
+			out.write("inWiring \"");
+			char[] random = alphabet.getRandomPermutation();
+			char[] ordinary = alphabet.toCharArray();
+			for(int i = 0; i < random.length; i++) {
+				if(i != 0) {
+					out.write(" ");
+				}
+				out.write(new char[] {ordinary[i], random[i]});
+			}
+			out.write("\"");
+			out.newLine();
+			out.newLine();
+			
+			/* First rotor */
+			random = alphabet.getRandomPermutation();
+			out.write("# Rotor wiring");
+			out.write("rotor 1 name \"Rotor 1\"");
+			out.newLine();
+			out.write("rotor 1 wiring \"");
+			random = alphabet.getRandomPermutation();
+			for(int i = 0; i < random.length; i++) {
+				if(i != 0) {
+					out.write(" ");
+				}
+				out.write(new char[] {random[i], ordinary[i]});
+			}
+			out.write("\"");
+			out.newLine();
+			out.newLine();
+			
+			out.write("# Default config");
+			random = alphabet.getRandomPermutation();
+			out.newLine();
+			out.write("selectRotors 1");
+			out.newLine();
+			out.write("setRotorsTo " + random[0]);
+			out.newLine();
+			
+
+			out.flush();
+			return;
+		} catch(Exception e) {
+			System.out.println("Failed to create machine due to error");
+			e.printStackTrace();
+		}
+	}
+
+
 }
 
 

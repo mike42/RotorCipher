@@ -31,8 +31,8 @@
 	<dl>
 		<dt>--simulate file.machine</dt>
 		<dd>File to read machine definiton from. Set to "-" to generate a random machine definition.</dd>
-		<dt>--encipher | --decipher | --dump</dt>
-		<dd>Use encipher or decipher mode, or dump the machine definiton to a file. Implies <tt>--cli</tt>.</dd>
+		<dt>--encipher | --decipher | --new</dt>
+		<dd>Use encipher or decipher mode, or create a new machine and output it. Implies <tt>--cli</tt>.</dd>
 		<dt>--input file</dt>
 		<dd>Input file for the operation, or "-" to read from standard input (this is the default). Only used for <tt>--encipher</tt> or <tt>--decipher</tt>.</dd>
 	</dl>
@@ -49,13 +49,13 @@
 		<li>Machines with the same wiring</li>
 		<li>The same rotor starting-position</li>
 	</ol>
-	<p>This program will load and save files in <tt>.machine</tt> format, which is simply a startup script. Use one of the example machines from the <tt>files</tt> folder to start.</p>
-	<p>Once implemented, you will be able to generate your own (random) <tt>.machine</tt> files like this:</p>
-	<pre>java RotorCipher --simulate - --dump --output myfile.machine</pre>
+	<p>This program will load and save files in <tt>.machine</tt> format, which is simply a startup script. Use one of the example machines from the <tt>files</tt> folder to get started.</p>
+	<p>You should generate your own random <tt>.machine</tt> file to encipher messages with:</p>
+	<pre>java RotorCipher --new --output myfile.machine</pre>
 
 	<h2>4. Usage examples</h2>
 	<h3>4.1 Enciphering and deciphering messages (GUI)</h3>
-	<p>To launch the GUI using one of the example files, use this command from the <tt>bin</tt> folder:</p>
+	<p>To launch the GUI using one of the example machines, use this command from the <tt>bin</tt> folder:</p>
 	<pre>java RotorCipher --simulate ../files/week01.machine</pre>
 
 	<h3>4.2 Interactive command-line mode</h3>
