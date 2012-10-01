@@ -1,5 +1,3 @@
-import java.io.FileNotFoundException;
-
 import decoderPlaintext.RotorMachineDecoder;
 
 import simulator.RotorMachine;
