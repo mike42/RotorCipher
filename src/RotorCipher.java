@@ -12,6 +12,7 @@ class RotorCipher {
 		boolean switchHelp = false;
 		boolean switchCli = false;
 		boolean switchKnownPlaintext = false;
+		boolean switchHTML = false;
 		String rotorPos = "";
 		/* Simulator mode */
 		String simulate = "-";
@@ -42,6 +43,7 @@ class RotorCipher {
 				} else if(args[i].equals("--decipher")) {			simMode = "decipher"; 	switchCli = true;
 				} else if(args[i].equals("--new")) {				simMode = "new";		switchCli = true;
 				} else if(args[i].equals("--input")) {				collect = "--input";
+				} else if(args[i].equals("--html")) {				switchHTML = true;
 				} else if(args[i].equals("--known-plaintext")) {	switchKnownPlaintext = true;
 				} else {
 					invalid = true;
@@ -59,7 +61,7 @@ class RotorCipher {
 		} if(switchKnownPlaintext) {
 			/* Known plaintext mode */
 			if(switchCli) {
-				RotorMachineDecoder.decodeCLI(rotorPos);
+				RotorMachineDecoder.decodeCLI(rotorPos, switchHTML);
 			} else {
 				// TODO
 				System.out.println("GUI for finding rotor wiring has not been implemented. Use --cli");

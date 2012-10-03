@@ -2,7 +2,7 @@ package decoderPlaintext;
 import java.util.Scanner;
 
 public class RotorMachineDecoder {
-	public static void decodeCLI(String rotorPos) {
+	public static void decodeCLI(String rotorPos, boolean switchHTML) {
 		String plain, cipher;
 
 		Scanner input = new Scanner(System.in);
@@ -21,7 +21,11 @@ public class RotorMachineDecoder {
 
 		RotorCipherTable table = new RotorCipherTable();
 		table.readIn(plain.toCharArray(), cipher.toCharArray(), rotorPos.toCharArray()[0]);
-		System.out.println(table.toString());
+		if(switchHTML) {
+			System.out.println(table.toHTML());
+		} else {
+			System.out.println(table);
+		}
 		
 		System.out.println("Headings: " + table.resolveClashesMixedInputOnly());
 	}

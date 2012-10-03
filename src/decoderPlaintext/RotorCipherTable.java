@@ -50,6 +50,9 @@ public class RotorCipherTable {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		int x, y, l;
 		char[] row;
@@ -69,6 +72,39 @@ public class RotorCipherTable {
 		}
 		return outp;
 	}
+	
+	
+	/**
+	 * Spew out a HTML cipher table.
+	 */
+	public String toHTML() {
+		int x, y, l;
+		String row;
+		String outp = "";
+		l = alphabet.length();
+		
+		/* Headings across */
+		row = "<th>&nbsp;</td>";
+		for(x = 0; x < l; x++) {
+			row += "<th>" + Character.toLowerCase(alphabet.getCharFromIndex(x)) + "</th>";
+		}
+		outp += "<tr>" + row + "</tr>\n";		
+		
+		/* Table contents */
+		for(y = 0; y < l; y++) {
+			row = "<th>" + alphabet.getCharFromIndex(y) + "</td>";
+			for(x = 0; x < l; x++) {
+				if(column[x].cell[y] == '\0') {
+					row += "<td>&nbsp;</td>";	
+				} else {
+					row += "<td>" + column[x].cell[y] + "</td>";
+				}
+			}
+			outp += "\t<tr>" + row + "</tr>\n";
+		}
+		return "<table>\n\t" + outp + "</table>";
+	}
+	
 
 	/**
 	 * Extract input wiring from the table assuming the output is not mixed
