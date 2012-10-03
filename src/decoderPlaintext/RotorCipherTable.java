@@ -84,7 +84,7 @@ public class RotorCipherTable {
 		l = alphabet.length();
 		
 		/* Headings across */
-		row = "<th>&nbsp;</td>";
+		row = "<th>&nbsp;</th>";
 		for(x = 0; x < l; x++) {
 			row += "<th>" + Character.toLowerCase(alphabet.getCharFromIndex(x)) + "</th>";
 		}
