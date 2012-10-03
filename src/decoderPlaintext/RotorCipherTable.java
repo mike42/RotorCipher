@@ -92,7 +92,7 @@ public class RotorCipherTable {
 		
 		/* Table contents */
 		for(y = 0; y < l; y++) {
-			row = "<th>" + alphabet.getCharFromIndex(y) + "</td>";
+			row = "<th>" + alphabet.getCharFromIndex(y) + "</th>";
 			for(x = 0; x < l; x++) {
 				if(column[x].cell[y] == '\0') {
 					row += "<td>&nbsp;</td>";	
@@ -128,6 +128,8 @@ public class RotorCipherTable {
 		for(i = 0; i < column.length; i++) {
 			thisMatch = new ColumnMatching(column[target].distanceTo(column[i]), column[target].header, column[i].header, Math.min(column[target].getPopulation(), column[i].getPopulation()));
 			match.add(thisMatch);
+			// TODO Option to print this information
+			// System.out.println(thisMatch);
 		}
 		
 		Collections.sort(match);
