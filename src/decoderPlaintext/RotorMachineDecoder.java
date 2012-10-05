@@ -27,6 +27,23 @@ public class RotorMachineDecoder {
 			System.out.println(table);
 		}
 		
-		System.out.println("Headings: " + table.resolveClashesMixedInputOnly());
+		String heading = table.resolveClashesMixedInputOnly();
+		System.out.println("Headings: " + heading);
+
+		/* Reshuffle to new heading order */
+		table.shuffleTo(heading);
+		if(switchHTML) {
+			System.out.println(table.toHTML());
+		} else {
+			System.out.println(table);
+		}
+		
+		/* Fill columns */
+		table.fillColumns();
+		if(switchHTML) {
+			System.out.println(table.toHTML());
+		} else {
+			System.out.println(table);
+		}
 	}
 }

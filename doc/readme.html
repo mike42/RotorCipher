@@ -271,36 +271,112 @@ NE</pre>
 	
 <table class="ciphertable">
 	<tr><th>Dist</th><th>From</th><th>To</th><th>Population</th></tr>
-	<tr><td> 0</td><td>E</td><td>E</td><td>23</td></tr>
-	<tr><td> 5</td><td>E</td><td>S</td><td>19</td></tr>
-	<tr><td class="popular">22</td><td class="popular">E</td><td class="popular">A</td><td class="popular">17</td></tr>
-	<tr><td>14</td><td>E</td><td>T</td><td>16</td></tr>
-	<tr><td>15</td><td>E</td><td>I</td><td>15</td></tr>
-	<tr><td>10</td><td>E</td><td>L</td><td>15</td></tr>
-	<tr><td>18</td><td>E</td><td>N</td><td>13</td></tr>
-	<tr><td> 4</td><td>E</td><td>R</td><td>13</td></tr>
-	<tr><td>11</td><td>E</td><td>C</td><td>12</td></tr>
-	<tr><td>13</td><td>E</td><td>M</td><td>10</td></tr>
-	<tr><td>25</td><td>E</td><td>O</td><td>10</td></tr>
-	<tr><td>16</td><td>E</td><td>P</td><td>10</td></tr>
-	<tr><td>12</td><td>E</td><td>H</td><td> 9</td></tr>
-	<tr><td>19</td><td>E</td><td>Y</td><td> 9</td></tr>
-	<tr><td> 8</td><td>E</td><td>U</td><td> 7</td></tr>
-	<tr><td> 6</td><td>E</td><td>B</td><td> 5</td></tr>
-	<tr><td> 1</td><td>E</td><td>D</td><td> 5</td></tr>
-	<tr><td> 2</td><td>E</td><td>G</td><td> 5</td></tr>
-	<tr><td> 7</td><td>E</td><td>F</td><td> 3</td></tr>
-	<tr><td> 9</td><td>E</td><td>W</td><td> 2</td></tr>
-	<tr><td>11</td><td>E</td><td>K</td><td> 1</td></tr>
-	<tr><td>14</td><td>E</td><td>Q</td><td> 1</td></tr>
-	<tr><td> 4</td><td>E</td><td>X</td><td> 1</td></tr>
-	<tr><td> 1</td><td>E</td><td>J</td><td> 0</td></tr>
-	<tr><td> 1</td><td>E</td><td>V</td><td> 0</td></tr>
-	<tr><td> 1</td><td>E</td><td>Z</td><td> 0</td></tr>
+	<tr><td> 0</td><td>e</td><td>e</td><td>23</td></tr>
+	<tr><td> 5</td><td>e</td><td>s</td><td>19</td></tr>
+	<tr><td class="popular">22</td><td class="popular">e</td><td class="popular">a</td><td class="popular">17</td></tr>
+	<tr><td>14</td><td>e</td><td>t</td><td>16</td></tr>
+	<tr><td>15</td><td>e</td><td>i</td><td>15</td></tr>
+	<tr><td>10</td><td>e</td><td>l</td><td>15</td></tr>
+	<tr><td>18</td><td>e</td><td>n</td><td>13</td></tr>
+	<tr><td> 4</td><td>e</td><td>r</td><td>13</td></tr>
+	<tr><td>11</td><td>e</td><td>c</td><td>12</td></tr>
+	<tr><td>13</td><td>e</td><td>m</td><td>10</td></tr>
+	<tr><td>25</td><td>e</td><td>o</td><td>10</td></tr>
+	<tr><td>16</td><td>e</td><td>p</td><td>10</td></tr>
+	<tr><td>12</td><td>e</td><td>h</td><td> 9</td></tr>
+	<tr><td>19</td><td>e</td><td>y</td><td> 9</td></tr>
+	<tr><td> 8</td><td>e</td><td>u</td><td> 7</td></tr>
+	<tr><td> 6</td><td>e</td><td>b</td><td> 5</td></tr>
+	<tr><td> 1</td><td>e</td><td>d</td><td> 5</td></tr>
+	<tr><td> 2</td><td>e</td><td>g</td><td> 5</td></tr>
+	<tr><td> 7</td><td>e</td><td>f</td><td> 3</td></tr>
+	<tr><td> 9</td><td>e</td><td>w</td><td> 2</td></tr>
+	<tr><td>11</td><td>e</td><td>k</td><td> 1</td></tr>
+	<tr><td>14</td><td>e</td><td>q</td><td> 1</td></tr>
+	<tr><td> 4</td><td>e</td><td>x</td><td> 1</td></tr>
+	<tr><td> 1</td><td>e</td><td>j</td><td> 0</td></tr>
+	<tr><td> 1</td><td>e</td><td>v</td><td> 0</td></tr>
+	<tr><td> 1</td><td>e</td><td>z</td><td> 0</td></tr>
 </table>
 <p>Note that in the table above, it is suggested that both <b>c</b> and <b>k</b> are located at a distance of 11 from <b>e</b>. Because <b>k</b> has a lower population (less data points supporting its claim), <b>c</b> will over-ride it, and it will be excluded from the final wiring. Columns with a population of 0 are also excluded because it is impossible to place them.</p>
-<p>So, by reading this table top-to-bottom, and ignoring duplicate claims, we find that the columns would be correctly labelled as:</p>
-<pre>EDG RSBFUWLCHMTIP NY  A  O</pre>
+<p>So, by reading this table top-to-bottom, and ignoring duplicate claims, we find that the columns would be following the pattern if they were re-shuffled as:</p>
+<table class="ciphertable">
+	<tr>
+		<th>Distance</th>
+		<td> 0</td><td> 1</td><td> 2</td><td> 3</td><td> 4</td><td> 5</td><td> 6</td><td> 7</td><td> 8</td><td> 9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td>
+	</tr>
+	<tr>
+		<th>Letter</th>
+		<td>e</td><td>d</td><td>g</td><td> </td><td>r</td><td>s</td><td>b</td><td>f</td><td>u</td><td>w</td><td>l</td><td>c</td><td>h</td><td>m</td><td>t</td><td>i</td><td>p</td><td> </td><td>n</td><td>y</td><td> </td><td> </td><td>a</td><td> </td><td> </td><td>o</td>
+	</tr>
+</table>
+
+<p>The next step is to place the original ciphertext table in this order. These headings are now the substitution cipher representing the input wiring:</p>
+<table class="ciphertable">
+	<tr><th>&nbsp;</th><th>e</th><th>d</th><th>g</th><th> </th><th>r</th><th>s</th><th>b</th><th>f</th><th>u</th><th>w</th><th>l</th><th>c</th><th>h</th><th>m</th><th>t</th><th>i</th><th>p</th><th> </th><th>n</th><th>y</th><th> </th><th> </th><th>a</th><th> </th><th> </th><th>o</th></tr>
+<tr><th>&nbsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+	<tr><th>A</th><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>I</td><td>R</td><td>&nbsp;</td><td>Y</td><td>&nbsp;</td><td>C</td><td>M</td><td>&nbsp;</td><td>&nbsp;</td><td>K</td><td>G</td><td>V</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>B</th><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>H</td><td>Q</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>W</td><td>&nbsp;</td><td>F</td><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>R</td><td>O</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Y</td></tr>
+	<tr><th>C</th><td>H</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>J</td><td>&nbsp;</td><td>&nbsp;</td><td>N</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>D</th><td>K</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>L</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>J</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>S</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>&nbsp;</td><td>C</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>R</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td></tr>
+	<tr><th>E</th><td>P</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td><td>&nbsp;</td><td>&nbsp;</td><td>H</td><td>Z</td><td>&nbsp;</td><td>L</td><td>&nbsp;</td><td>M</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>F</th><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>X</td><td>&nbsp;</td><td>R</td><td>&nbsp;</td><td>&nbsp;</td><td>B</td><td>Q</td><td>&nbsp;</td><td>Y</td><td>N</td><td>K</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>G</th><td>&nbsp;</td><td>I</td><td>&nbsp;</td><td>&nbsp;</td><td>W</td><td>G</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>F</td><td>X</td><td>&nbsp;</td><td>&nbsp;</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>C</td></tr>
+	<tr><th>H</th><td>H</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>W</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>&nbsp;</td><td>N</td><td>S</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td><td>&nbsp;</td><td>&nbsp;</td><td>K</td></tr>
+	<tr><th>I</th><td>Q</td><td>Z</td><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>C</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>K</td><td>H</td><td>X</td><td>I</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>R</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td></tr>
+	<tr><th>J</th><td>Y</td><td>T</td><td>&nbsp;</td><td>&nbsp;</td><td>O</td><td>B</td><td>&nbsp;</td><td>&nbsp;</td><td>C</td><td>&nbsp;</td><td>J</td><td>&nbsp;</td><td>W</td><td>&nbsp;</td><td>&nbsp;</td><td>S</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>K</th><td>S</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>A</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>T</td><td>I</td><td>F</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>&nbsp;</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>H</td><td>&nbsp;</td><td>&nbsp;</td><td>X</td></tr>
+	<tr><th>L</th><td>B</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>K</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>&nbsp;</td><td>J</td><td>&nbsp;</td><td>T</td><td>&nbsp;</td><td>C</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>M</th><td>K</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>J</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>O</td><td>P</td><td>&nbsp;</td><td>&nbsp;</td><td>S</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>M</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>N</th><td>K</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Y</td><td>Q</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>O</td><td>&nbsp;</td><td>&nbsp;</td><td>R</td><td>W</td><td>&nbsp;</td><td>&nbsp;</td><td>V</td><td>E</td><td>&nbsp;</td><td>&nbsp;</td><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>O</th><td>W</td><td>&nbsp;</td><td>H</td><td>&nbsp;</td><td>&nbsp;</td><td>E</td><td>B</td><td>R</td><td>&nbsp;</td><td>M</td><td>N</td><td>G</td><td>L</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>O</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>P</th><td>R</td><td>G</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>A</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>&nbsp;</td><td>&nbsp;</td><td>E</td><td>&nbsp;</td><td>&nbsp;</td><td>Z</td><td>J</td><td>&nbsp;</td><td>&nbsp;</td><td>X</td><td>&nbsp;</td><td>&nbsp;</td><td>V</td></tr>
+	<tr><th>Q</th><td>F</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Z</td><td>P</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>J</td><td>&nbsp;</td><td>&nbsp;</td><td>X</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td><td>&nbsp;</td><td>&nbsp;</td><td>Q</td></tr>
+	<tr><th>R</th><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>O</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>N</td><td>S</td><td>&nbsp;</td><td>C</td><td>R</td><td>A</td><td>&nbsp;</td><td>&nbsp;</td><td>Q</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>S</th><td>L</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Y</td><td>I</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>R</td><td>V</td><td>B</td><td>Q</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>T</th><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>I</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>Y</td><td>&nbsp;</td><td>F</td><td>O</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>&nbsp;</td><td>&nbsp;</td><td>N</td><td>&nbsp;</td><td>&nbsp;</td><td>K</td></tr>
+	<tr><th>U</th><td>V</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>A</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>&nbsp;</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>U</td><td>&nbsp;</td><td>N</td><td>I</td><td>&nbsp;</td><td>C</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>B</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>V</th><td>K</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>E</td><td>J</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>W</td><td>&nbsp;</td><td>&nbsp;</td><td>M</td><td>&nbsp;</td><td>R</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>W</th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>D</td><td>I</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>V</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td><td>Q</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>J</td></tr>
+	<tr><th>X</th><td>D</td><td>&nbsp;</td><td>X</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>L</td><td>&nbsp;</td><td>&nbsp;</td><td>B</td><td>&nbsp;</td><td>&nbsp;</td><td>P</td><td>Z</td><td>&nbsp;</td><td>&nbsp;</td><td>J</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>Y</th><td>&nbsp;</td><td>&nbsp;</td><td>B</td><td>&nbsp;</td><td>L</td><td>&nbsp;</td><td>V</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>A</td><td>&nbsp;</td><td>&nbsp;</td><td>O</td><td>Y</td><td>Z</td><td>M</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>R</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><th>Z</th><td>V</td><td>A</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>U</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>I</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Y</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>E</td><td>&nbsp;</td><td>&nbsp;</td><td>G</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+
+<p>Now that they have been placed in the correct order, every cell can be projected to its upper-right until we have filled the ciphertext table:</p>
+
+<table class="ciphertable">
+	<tr><th>&nbsp;</th><th>e</th><th>d</th><th>g</th><th> </th><th>r</th><th>s</th><th>b</th><th>f</th><th>u</th><th>w</th><th>l</th><th>c</th><th>h</th><th>m</th><th>t</th><th>i</th><th>p</th><th> </th><th>n</th><th>y</th><th> </th><th> </th><th>a</th><th> </th><th> </th><th>o</th></tr>
+<tr><th>&nbsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+	<tr><th>A</th><td>Z</td><td>E</td><td>J</td><td>N</td><td>T</td><td>I</td><td>R</td><td>O</td><td>Y</td><td>H</td><td>C</td><td>M</td><td>W</td><td>X</td><td>K</td><td>G</td><td>V</td><td>L</td><td>D</td><td>S</td><td>P</td><td>F</td><td>Q</td><td>A</td><td>B</td><td>U</td></tr>
+	<tr><th>B</th><td>D</td><td>I</td><td>M</td><td>S</td><td>H</td><td>Q</td><td>N</td><td>X</td><td>G</td><td>B</td><td>L</td><td>V</td><td>W</td><td>J</td><td>F</td><td>U</td><td>K</td><td>C</td><td>R</td><td>O</td><td>E</td><td>P</td><td>Z</td><td>A</td><td>T</td><td>Y</td></tr>
+	<tr><th>C</th><td>H</td><td>L</td><td>R</td><td>G</td><td>P</td><td>M</td><td>W</td><td>F</td><td>A</td><td>K</td><td>U</td><td>V</td><td>I</td><td>E</td><td>T</td><td>J</td><td>B</td><td>Q</td><td>N</td><td>D</td><td>O</td><td>Y</td><td>Z</td><td>S</td><td>X</td><td>C</td></tr>
+	<tr><th>D</th><td>K</td><td>Q</td><td>F</td><td>O</td><td>L</td><td>V</td><td>E</td><td>Z</td><td>J</td><td>T</td><td>U</td><td>H</td><td>D</td><td>S</td><td>I</td><td>A</td><td>P</td><td>M</td><td>C</td><td>N</td><td>X</td><td>Y</td><td>R</td><td>W</td><td>B</td><td>G</td></tr>
+	<tr><th>E</th><td>P</td><td>E</td><td>N</td><td>K</td><td>U</td><td>D</td><td>Y</td><td>I</td><td>S</td><td>T</td><td>G</td><td>C</td><td>R</td><td>H</td><td>Z</td><td>O</td><td>L</td><td>B</td><td>M</td><td>W</td><td>X</td><td>Q</td><td>V</td><td>A</td><td>F</td><td>J</td></tr>
+	<tr><th>F</th><td>D</td><td>M</td><td>J</td><td>T</td><td>C</td><td>X</td><td>H</td><td>R</td><td>S</td><td>F</td><td>B</td><td>Q</td><td>G</td><td>Y</td><td>N</td><td>K</td><td>A</td><td>L</td><td>V</td><td>W</td><td>P</td><td>U</td><td>Z</td><td>E</td><td>I</td><td>O</td></tr>
+	<tr><th>G</th><td>L</td><td>I</td><td>S</td><td>B</td><td>W</td><td>G</td><td>Q</td><td>R</td><td>E</td><td>A</td><td>P</td><td>F</td><td>X</td><td>M</td><td>J</td><td>Z</td><td>K</td><td>U</td><td>V</td><td>O</td><td>T</td><td>Y</td><td>D</td><td>H</td><td>N</td><td>C</td></tr>
+	<tr><th>H</th><td>H</td><td>R</td><td>A</td><td>V</td><td>F</td><td>P</td><td>Q</td><td>D</td><td>Z</td><td>O</td><td>E</td><td>W</td><td>L</td><td>I</td><td>Y</td><td>J</td><td>T</td><td>U</td><td>N</td><td>S</td><td>X</td><td>C</td><td>G</td><td>M</td><td>B</td><td>K</td></tr>
+	<tr><th>I</th><td>Q</td><td>Z</td><td>U</td><td>E</td><td>O</td><td>P</td><td>C</td><td>Y</td><td>N</td><td>D</td><td>V</td><td>K</td><td>H</td><td>X</td><td>I</td><td>S</td><td>T</td><td>M</td><td>R</td><td>W</td><td>B</td><td>F</td><td>L</td><td>A</td><td>J</td><td>G</td></tr>
+	<tr><th>J</th><td>Y</td><td>T</td><td>D</td><td>N</td><td>O</td><td>B</td><td>X</td><td>M</td><td>C</td><td>U</td><td>J</td><td>G</td><td>W</td><td>H</td><td>R</td><td>S</td><td>L</td><td>Q</td><td>V</td><td>A</td><td>E</td><td>K</td><td>Z</td><td>I</td><td>F</td><td>P</td></tr>
+	<tr><th>K</th><td>S</td><td>C</td><td>M</td><td>N</td><td>A</td><td>W</td><td>L</td><td>B</td><td>T</td><td>I</td><td>F</td><td>V</td><td>G</td><td>Q</td><td>R</td><td>K</td><td>P</td><td>U</td><td>Z</td><td>D</td><td>J</td><td>Y</td><td>H</td><td>E</td><td>O</td><td>X</td></tr>
+	<tr><th>L</th><td>B</td><td>L</td><td>M</td><td>Z</td><td>V</td><td>K</td><td>A</td><td>S</td><td>H</td><td>E</td><td>U</td><td>F</td><td>P</td><td>Q</td><td>J</td><td>O</td><td>T</td><td>Y</td><td>C</td><td>I</td><td>X</td><td>G</td><td>D</td><td>N</td><td>W</td><td>R</td></tr>
+	<tr><th>M</th><td>K</td><td>L</td><td>Y</td><td>U</td><td>J</td><td>Z</td><td>R</td><td>G</td><td>D</td><td>T</td><td>E</td><td>O</td><td>P</td><td>I</td><td>N</td><td>S</td><td>X</td><td>B</td><td>H</td><td>W</td><td>F</td><td>C</td><td>M</td><td>V</td><td>Q</td><td>A</td></tr>
+	<tr><th>N</th><td>K</td><td>X</td><td>T</td><td>I</td><td>Y</td><td>Q</td><td>F</td><td>C</td><td>S</td><td>D</td><td>N</td><td>O</td><td>H</td><td>M</td><td>R</td><td>W</td><td>A</td><td>G</td><td>V</td><td>E</td><td>B</td><td>L</td><td>U</td><td>P</td><td>Z</td><td>J</td></tr>
+	<tr><th>O</th><td>W</td><td>S</td><td>H</td><td>X</td><td>P</td><td>E</td><td>B</td><td>R</td><td>C</td><td>M</td><td>N</td><td>G</td><td>L</td><td>Q</td><td>V</td><td>Z</td><td>F</td><td>U</td><td>D</td><td>A</td><td>K</td><td>T</td><td>O</td><td>Y</td><td>I</td><td>J</td></tr>
+	<tr><th>P</th><td>R</td><td>G</td><td>W</td><td>O</td><td>D</td><td>A</td><td>Q</td><td>B</td><td>L</td><td>M</td><td>F</td><td>K</td><td>P</td><td>U</td><td>Y</td><td>E</td><td>T</td><td>C</td><td>Z</td><td>J</td><td>S</td><td>N</td><td>X</td><td>H</td><td>I</td><td>V</td></tr>
+	<tr><th>Q</th><td>F</td><td>V</td><td>N</td><td>C</td><td>Z</td><td>P</td><td>A</td><td>K</td><td>L</td><td>E</td><td>J</td><td>O</td><td>T</td><td>X</td><td>D</td><td>S</td><td>B</td><td>Y</td><td>I</td><td>R</td><td>M</td><td>W</td><td>G</td><td>H</td><td>U</td><td>Q</td></tr>
+	<tr><th>R</th><td>U</td><td>M</td><td>B</td><td>Y</td><td>O</td><td>Z</td><td>J</td><td>K</td><td>D</td><td>I</td><td>N</td><td>S</td><td>W</td><td>C</td><td>R</td><td>A</td><td>X</td><td>H</td><td>Q</td><td>L</td><td>V</td><td>F</td><td>G</td><td>T</td><td>P</td><td>E</td></tr>
+	<tr><th>S</th><td>L</td><td>A</td><td>X</td><td>N</td><td>Y</td><td>I</td><td>J</td><td>C</td><td>H</td><td>M</td><td>R</td><td>V</td><td>B</td><td>Q</td><td>Z</td><td>W</td><td>G</td><td>P</td><td>K</td><td>U</td><td>E</td><td>F</td><td>S</td><td>O</td><td>D</td><td>T</td></tr>
+	<tr><th>T</th><td>Z</td><td>W</td><td>M</td><td>X</td><td>H</td><td>I</td><td>B</td><td>G</td><td>L</td><td>Q</td><td>U</td><td>A</td><td>P</td><td>Y</td><td>V</td><td>F</td><td>O</td><td>J</td><td>T</td><td>D</td><td>E</td><td>R</td><td>N</td><td>C</td><td>S</td><td>K</td></tr>
+	<tr><th>U</th><td>V</td><td>L</td><td>W</td><td>G</td><td>H</td><td>A</td><td>F</td><td>K</td><td>P</td><td>T</td><td>Z</td><td>O</td><td>X</td><td>U</td><td>E</td><td>N</td><td>I</td><td>S</td><td>C</td><td>D</td><td>Q</td><td>M</td><td>B</td><td>R</td><td>J</td><td>Y</td></tr>
+	<tr><th>V</th><td>K</td><td>V</td><td>F</td><td>G</td><td>Z</td><td>E</td><td>J</td><td>O</td><td>S</td><td>Y</td><td>N</td><td>W</td><td>T</td><td>D</td><td>M</td><td>H</td><td>R</td><td>B</td><td>C</td><td>P</td><td>L</td><td>A</td><td>Q</td><td>I</td><td>X</td><td>U</td></tr>
+	<tr><th>W</th><td>U</td><td>E</td><td>F</td><td>Y</td><td>D</td><td>I</td><td>N</td><td>R</td><td>X</td><td>M</td><td>V</td><td>S</td><td>C</td><td>L</td><td>G</td><td>Q</td><td>A</td><td>B</td><td>O</td><td>K</td><td>Z</td><td>P</td><td>H</td><td>W</td><td>T</td><td>J</td></tr>
+	<tr><th>X</th><td>D</td><td>E</td><td>X</td><td>C</td><td>H</td><td>M</td><td>Q</td><td>W</td><td>L</td><td>U</td><td>R</td><td>B</td><td>K</td><td>F</td><td>P</td><td>Z</td><td>A</td><td>N</td><td>J</td><td>Y</td><td>O</td><td>G</td><td>V</td><td>S</td><td>I</td><td>T</td></tr>
+	<tr><th>Y</th><td>D</td><td>W</td><td>B</td><td>G</td><td>L</td><td>P</td><td>V</td><td>K</td><td>T</td><td>Q</td><td>A</td><td>J</td><td>E</td><td>O</td><td>Y</td><td>Z</td><td>M</td><td>I</td><td>X</td><td>N</td><td>F</td><td>U</td><td>R</td><td>H</td><td>S</td><td>C</td></tr>
+	<tr><th>Z</th><td>V</td><td>A</td><td>F</td><td>K</td><td>O</td><td>U</td><td>J</td><td>S</td><td>P</td><td>Z</td><td>I</td><td>D</td><td>N</td><td>X</td><td>Y</td><td>L</td><td>H</td><td>W</td><td>M</td><td>E</td><td>T</td><td>Q</td><td>G</td><td>R</td><td>B</td><td>C</td></tr>
+</table>
+
+<p>At this point, we have a fully populated ciphertext table with just a couple of blanks, corresponding to lesser-used characters:</p>
 
 </body>
 </html>

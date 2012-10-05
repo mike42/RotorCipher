@@ -4,6 +4,8 @@ import java.util.Collections;
 import simulator.Alphabet;
 
 public class RotorCipherTable {
+	char[] secondHeadings;
+	
 	CipherTableColumn[] column;
 	Alphabet alphabet;
 
@@ -15,6 +17,8 @@ public class RotorCipherTable {
 			column[i] = new CipherTableColumn(alphabet, l);
 			column[i].header = alphabet.getCharFromIndex(i);
 		}
+		
+		secondHeadings = null;
 	}
 
 	public RotorCipherTable() {
@@ -62,7 +66,7 @@ public class RotorCipherTable {
 			row = new char[26];
 			for(x = 0; x < l; x++) {
 				/* BLANKS */
-				if(column[x].cell[y] == '\0') {
+				if(column[x] == null || column[x].cell[y] == '\0') {
 					row[x] = '-';	
 				} else {
 					row[x] = column[x].cell[y];
@@ -82,19 +86,30 @@ public class RotorCipherTable {
 		String row;
 		String outp = "";
 		l = alphabet.length();
+		char next;
 		
-		/* Headings across */
+		if(secondHeadings != null) {
+			/* Print shuffled headings at the top */
+			row = "<th>&nbsp;</th>";
+			for(x = 0; x < l; x++) {
+				row += "<th>" + Character.toLowerCase(secondHeadings[x]) + "</th>";
+			}
+			outp += "<tr>" + row + "</tr>\n";
+		}
+		
+		/* Original headings below this */
 		row = "<th>&nbsp;</th>";
 		for(x = 0; x < l; x++) {
-			row += "<th>" + Character.toLowerCase(alphabet.getCharFromIndex(x)) + "</th>";
+			next = (secondHeadings == null)? Character.toLowerCase(alphabet.getCharFromIndex(x)) : Character.toUpperCase(alphabet.getCharFromIndex(x));
+			row += "<th>" + next + "</th>";
 		}
-		outp += "<tr>" + row + "</tr>\n";		
+		outp += "<tr>" + row + "</tr>\n";
 		
 		/* Table contents */
 		for(y = 0; y < l; y++) {
 			row = "<th>" + alphabet.getCharFromIndex(y) + "</th>";
 			for(x = 0; x < l; x++) {
-				if(column[x].cell[y] == '\0') {
+				if(column[x] == null || column[x].cell[y] == '\0') {
 					row += "<td>&nbsp;</td>";	
 				} else {
 					row += "<td>" + column[x].cell[y] + "</td>";
@@ -102,9 +117,8 @@ public class RotorCipherTable {
 			}
 			outp += "\t<tr>" + row + "</tr>\n";
 		}
-		return "<table>\n\t" + outp + "</table>";
+		return "<table class=\"ciphertable\">\n\t" + outp + "</table>";
 	}
-	
 
 	/**
 	 * Extract input wiring from the table assuming the output is not mixed
@@ -165,8 +179,85 @@ public class RotorCipherTable {
 	 * @return
 	 */
 	public String resolveClashesMixedInputOutput() {
-		
+
 		return null;
+	}
+	
+	/**
+	 * Re-shuffle the cipher table according to some new headings.
+	 * 
+	 * This assumes that the table is currently in A-Z order (ie, don't call it twice or it will get messy)
+	 * 
+	 * @param headings A string denoting the new headings
+	 */
+	public void shuffleTo(String headings) {
+		secondHeadings = headings.toCharArray();
+		
+		CipherTableColumn[] old = column;
+		column = new CipherTableColumn[26];
+
+		for(int i = 0; i < secondHeadings.length; i++) {
+			if(secondHeadings[i] == ' ') {
+				/* Spaces represent undefined columns */
+				column[i] = null;
+			} else {
+				column[i] = old[alphabet.getIndexFromChar(secondHeadings[i])];
+			}
+		}
+	}
+	
+	/**
+	 * Fill columns (must be in order by now) with the alphabet.
+	 * 
+	 * Null columns will now be re-created and filled
+	 */
+	public void fillColumns() {
+		int x, y;
+		for(x = 0; x < column.length; x++) {
+			if(column[x] == null) {
+				column[x] = new CipherTableColumn(alphabet, column.length);
+			}
+		}
+		
+		for(x = 0; x < column.length; x++) {
+			/* Go down non-null columns */
+			for(y = 0; y < column.length; y++) {
+				/* Find and project non-empty characters */
+				if(column[x].cell[y] != '\0') {
+					projectLetter(x, y);
+				}
+			}
+		}
+		return;
+	}
+	
+	/**
+	 * Project a letter 26 times. The given character must be in a non-null column, and in the alphabet (ie not \0 itself)
+	 * 
+	 * @param x X-position of character to project.
+	 * @param y Y-position of character to project
+	 */
+	private void projectLetter(int x, int y) {
+		int i;
+		int nextX, nextY;
+		char curChar, nextChar;;
+		curChar = column[x].cell[y];
+		
+		for(i = 0; i < 26; i++) {
+			nextChar = alphabet.next(curChar);
+			nextX = (x + 1) % alphabet.length();
+			nextY = ((y - 1) + alphabet.length()) % alphabet.length();
+			if(column[nextX] == null) {
+				/* Skip over nulls */
+			} else if(column[nextX].cell[nextY] == '\0') {
+				column[nextX].cell[nextY] = nextChar;
+			} else {
+				return;
+			}
+			x = nextX;
+			y = nextY;
+			curChar = nextChar;
+		}
 	}
 }
 
