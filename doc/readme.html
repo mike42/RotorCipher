@@ -25,10 +25,11 @@
 			background-color: PaleTurquoise;
 		}
 	</style>
+	<title>RotorCipher</title>
 </head>
 <body>
 	<h1>RotorCipher</h1>
-	Tools and simulators for single-rotor cipher machines.
+	Tools and simulator for single-rotor cipher machines.
 
 	<h2>1. Compiling</h2>
 	<p>To compile, open the <tt>src</tt> directory in the terminal, and type <tt>make</tt>.</p>
@@ -38,6 +39,8 @@
 	<dl>
 		<dt>--help</dt>
 		<dd>Show basic usage information.</dd>
+		<dt>--version</dt>
+		<dd>Print version and exit.</dd>
 		<dt>--cli</dt>
 		<dd>Do not launch GUI interface.</dd>
 		<dt>--gui</dt>
@@ -62,7 +65,7 @@
 	<h3>2.2 Ciphertext/plaintext decoder mode</h3>
 	<dl>
 		<dt>--known-plaintext</dt>
-		<dd>Attempt to figure out wiring based on plaintext/ciphertext. You will also be prompted for a rotor position if <tt>--rotorpos</tt> is not specified.</dd>
+		<dd>Attempt to figure out wiring based on plaintext/ciphertext. You will also be prompted for a rotor position if <tt>--rotorpos</tt> is not specified. The output of this operation is a machine file suitable for the simulator.</dd>
 	</dl>
 
 	<h2>3. Machine files</h2>

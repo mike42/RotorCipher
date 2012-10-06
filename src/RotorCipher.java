@@ -7,6 +7,8 @@ import simulator.RotorMachine;
 import simulator.RotorMachineSimulator;
 
 class RotorCipher {
+	final static String VERSION = "0.9";
+	
 	public static void main(String args[]) throws UnsupportedEncodingException {
 		/* Default command-line options */
 		boolean switchHelp = false;
@@ -14,6 +16,8 @@ class RotorCipher {
 		boolean switchKnownPlaintext = false;
 		boolean switchHTML = false;
 		boolean switchVerbose = false;
+		boolean switchVersion = false;
+		
 		String rotorPos = "";
 		/* Simulator mode */
 		String simulate = "-";
@@ -35,6 +39,7 @@ class RotorCipher {
 				collect = "";
 			} else {
 				if(       args[i].equals("--help")) {				switchHelp = true;
+				} else if(args[i].equals("--version")) {			switchVersion = true;
 				} else if(args[i].equals("--cli")) { 				switchCli = true;
 				} else if(args[i].equals("--gui")) {				/* This has no effect */
 				} else if(args[i].equals("--rotorpos")) {			collect = "--rotorpos";
@@ -56,11 +61,14 @@ class RotorCipher {
 		
 		if(invalid) {
 			/* Didn't understand command-line arguments */
-			System.out.println("An invalid option was given. Please check the documentation.");
+			System.out.println("An invalid option was given. Please use --help for usage information.");
 		} else if(switchHelp) {
 			/* Help */
-			System.out.println("See ../doc/readme.html for usage.");
-		} if(switchKnownPlaintext) {
+			System.out.println(getHelp());
+		} else if(switchVersion) {
+			/* Version */
+			System.out.println(getVersion());
+		} else if(switchKnownPlaintext) {
 			/* Known plaintext mode */
 			if(switchCli) {
 				RotorMachineDecoder.decodeCLI(rotorPos, switchHTML, switchVerbose, output);
@@ -104,5 +112,51 @@ class RotorCipher {
 				RotorMachineSimulator.startGUI();
 			}
 		}
+	}
+	private static String getVersion() {
+		return "RotorCipher " + VERSION + " - Tools and simulator for Rotor ciphers.\n" +
+				"(c) 2012 Michael Billington, see doc/licence.txt";
+	}
+	
+	private static String getHelp() {
+		String help = getVersion() + "\n" + 
+			"The following switches apply to all modes:\n" +
+			"	--help\n" +
+			"		Show basic usage information.\n" +
+			"	--version\n" +
+			"		Print version and exit.\n" +
+			"	--cli\n" +
+			"		Do not launch GUI interface.\n" +
+			"	--gui\n" +
+			"		Use GUI rather than CLI version (this is the default).\n" +
+			"	--rotorpos R\n" +
+			"		Position to start the rotor from. Default is A\n" +
+			"	--output file\n" +
+			"		File to dump output to. Use \"-\" for standard output.\n" +
+			"	--verbose\n" +
+			"		Print extra information which may be useful for debugging\n" + 
+			"		unexpected output.\n" +
+			"\n" +
+			"Arguments for simulator mode\n" +
+			"	--simulate file.machine\n" +
+			"		File to read machine definiton from. Set to \"-\" to generate\n" +
+			"		a random machine definition.\n" +
+			"	--encipher | --decipher | --new\n" +
+			"		Use encipher or decipher mode, or create a new machine and\n" + 
+			"		output it. Implies --cli.\n" +
+			"	--input file\n" +
+			"		Input file for the operation, or \"-\" to read from standard\n" +
+			"		input (this is the default). Only used with --encipher\n" +
+			"		or --decipher.\n" +
+			"\n" +
+			"Arguments for ciphertext/plaintext decoder mode\n" +
+			"	--known-plaintext\n" +
+			"		Attempt to figure out wiring based on plaintext/ciphertext. You\n" +
+			"		will also be prompted for a rotor position if --rotorpos is not\n" +
+			"		specified. The output of this operation is a machine file\n" +
+			"		suitable for the simulator.\n" +
+			"\n" +
+			"See doc/readme.html for more detail/";
+		return help;
 	}
 }
