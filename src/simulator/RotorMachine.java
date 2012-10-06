@@ -551,6 +551,14 @@ public class RotorMachine {
 	}
 	
 	public String toString() {
-		return  "== Input wiring== \n" + inWiring + "\n==Rotor wiring==\n" + rotorLibrary[selectedRotors[0]] + "\n==Output wiring==\n" + outWiring;
+		return  "== Input wiring== \n" + inWiring.toString(1) + "\n==Rotor wiring==\n" + rotorLibrary[selectedRotors[0]] + "\n==Output wiring==\n" + outWiring.toString(1);
 	}
+	
+	/**
+	 * @return Rotor, input, and output wirings in HTML
+	 */
+	public String toHTML() {
+		return  "<h2> Input wiring </h2>" + inWiring.toHTML(1) + "\n<h2> Rotor wiring </h2>\n" + rotorLibrary[selectedRotors[0]].toHTML() + "\n<h2>Output wiring</h2>\n" + outWiring.toHTML(1);
+	}
+	
 }

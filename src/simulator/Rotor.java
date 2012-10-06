@@ -139,6 +139,12 @@ public class Rotor {
 		return encipherTable[position][inID];
 	}
 
+	/**
+	 * Decipher one character
+	 * 
+	 * @param c	Character to decipher
+	 * @return	The result of putting this character through the rotor
+	 */
 	public char decipherChar(char c) {
 		if(!alphabet.hasChar(c)) {
 			/* Simple catch for nonsense chars */
@@ -160,14 +166,24 @@ public class Rotor {
 		return alphabet.getCharFromIndex(position);
 	}
 	
+	/**
+	 * Wrapper for toString() of whole table
+	 */
 	public String toString() {
+		return toString(alphabet.length());
+	}
+	
+	/**
+	 * @return String representing encipher and decipher tables
+	 */
+	public String toString(int limit) {
 		/* Get current wiring */
 		String encTable = "";
 		String decTable = "";
 		String encRow, decRow;
 		
 		int x, y, l = alphabet.length();
-		for(y = 0; y < l; y++) {
+		for(y = 0; y < l && y < limit; y++) {
 			encRow = decRow = "";
 			for(x = 0; x < l; x++) {
 				encRow += encipherTable[y][x];
@@ -178,5 +194,64 @@ public class Rotor {
 		}
 
 		return "\tEncipher table:\n" + encTable + "\tDecipher table\n" + decTable + "Current position (row # being used 0-" + (l - 1) + "): " + position;
+	}
+	
+	/**
+	 * @return HTML representing encipher and decipher tables
+	 */
+	public String toHTML(int limit) {
+		/* Get current wiring */
+		String encTable = "";
+		String decTable = "";
+		String encRow, decRow;
+		
+		int x, y, l = alphabet.length();
+		encTable = decTable = "<table class=\"ciphertable\">\n";
+		/* Captions */
+		encTable += "\t<caption>Encipher table</caption>\n";
+		decTable += "\t<caption>Decipher table</caption>\n";
+		
+		/* Headings */
+		encRow = decRow = "\t<tr><th>&nbsp;</th>";
+		for(x = 0; x < l; x++) {
+			encRow += "<th>" + Character.toLowerCase(alphabet.getCharFromIndex(x)) + "</th>";
+			decRow += "<th>" + Character.toUpperCase(alphabet.getCharFromIndex(x)) + "</th>";
+		}
+		encTable += encRow + "</tr>\n";
+		decTable += decRow + "</tr>\n";
+		
+		/* Actual cipher table content */
+		for(y = 0; y < l && y < limit; y++) {
+			encRow = decRow = "\t<tr><th>" + Character.toUpperCase(alphabet.getCharFromIndex(y)) + "</th>";
+			for(x = 0; x < l; x++) {
+				/* Build cells */
+				if(encipherTable[y][x] == '_') {
+					encRow += "<td>&nbsp;</td>";
+				} else {
+					encRow += "<td>" + Character.toUpperCase(encipherTable[y][x]) + "</td>";
+				}
+				
+				if(decipherTable[y][x] == '_') {
+					decRow += "<td>&nbsp;</td>";
+				} else {
+					decRow += "<td>" + Character.toLowerCase(decipherTable[y][x]) + "</td>";
+				}
+			}
+			encTable += encRow + "</tr>\n";
+			decTable += decRow + "</tr>\n";
+		}
+
+		encTable += "</table>\n";
+		decTable += "</table>\n";
+		
+		
+		return encTable + decTable + "<p>Current position (row # being used 0-" + (l - 1) + "): " + position + "</p>";
+	}
+	
+	/**
+	 * Wrapper for toHTML() for the entire table.
+	 */
+	public String toHTML() {
+		return toHTML(alphabet.length());
 	}
 }

@@ -186,6 +186,7 @@ public class RotorMachineSimulator {
 			/* First rotor */
 			random = alphabet.getRandomPermutation();
 			out.write("# Rotor wiring");
+			out.newLine();
 			out.write("rotor 1 name \"Rotor 1\"");
 			out.newLine();
 			out.write("rotor 1 wiring \"");
@@ -208,7 +209,6 @@ public class RotorMachineSimulator {
 			out.write("setRotorsTo " + random[0]);
 			out.newLine();
 			
-
 			out.flush();
 			return;
 		} catch(Exception e) {

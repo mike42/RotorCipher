@@ -24,6 +24,11 @@
 		.popular {
 			background-color: PaleTurquoise;
 		}
+
+		th.popular {
+			background-color: Turquoise;
+		}
+
 	</style>
 	<title>RotorCipher</title>
 </head>
@@ -31,10 +36,47 @@
 	<h1>RotorCipher</h1>
 	Tools and simulator for single-rotor cipher machines.
 
-	<h2>1. Compiling</h2>
+	<ul>
+		<li><a href="#sect-1">1. Compiling</a></li>
+		<li><a href="#sect-2">2. Command-line usage</a>
+			<ul>
+				<li><a href="#sect-2-1">2.1 Simulator mode</a></li>
+				<li><a href="#sect-2-2">2.2 Ciphertext/plaintext decoder mode</a></li>
+			</ul>
+		</li>
+		<li><a href="#sect-3">3. Machine files</a></li>
+		<li><a href="#sect-4">4. Usage examples</a>
+			<ul>
+				<li><a href="#sect-4-1">4.1 Enciphering and deciphering messages (GUI)</a></li>
+				<li><a href="#sect-4-2">4.2 Interactive command-line mode</a></li>
+				<li><a href="#sect-4-3">4.3 Non-interactive mode</a></li>
+				<li><a href="#sect-4-4">4.4 Using with minimodem to transmit messages</a></li>
+				<li><a href="#sect-4-5">4.5 Finding rotor wiring from plaintext/ciphertext pair</a></li>
+			</ul>
+		</li>
+		<li><a href="#sect-5">5. Algorithms</a>
+			<ul>
+				<li><a href="#sect-5-1">5.1 Enciphering and deciphering messages</a>
+					<ul>
+						<li><a href="#sect-5-1-1">5.1.1 Example enciphering</a></li>
+					</ul>
+				</li>
+				<li><a href="#sect-5-2">5.2 Most Likely Wiring algorithm</a>
+					<ul>
+						<li><a href="#sect-5-2-1">5.2.1 Building a machine file from the cipher table</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li><a href="#sect-6">6. Limitations and practical considerations</a></li>
+	</ul>
+
+
+
+	<h2><a name="sect-1">1. Compiling</a></h2>
 	<p>To compile, open the <tt>src</tt> directory in the terminal, and type <tt>make</tt>.</p>
 
-	<h2>2. Command-line usage</h2>
+	<h2><a name="sect-2">2. Command-line usage</a></h2>
 	<p>The following switches apply to all modes:</p>
 	<dl>
 		<dt>--help</dt>
@@ -51,8 +93,10 @@
 		<dd>File to dump output to. Use "-" for standard output.</dd>
 		<dt>--verbose</dt>
 		<dd>Print extra information which may be useful for debugging unexpected output.</dd>
+		<dt>--html</dt>
+		<dd>Used in conjunction with --verbose to get tables in HTML rather than plaintext.</dd>
 	</dl>
-	<h3>2.1 Simulator mode</h3>
+	<h3><a name="sect-2-1">2.1 Simulator mode</a></h3>
 	<dl>
 		<dt>--simulate file.machine</dt>
 		<dd>File to read machine definiton from. Set to "-" to generate a random machine definition.</dd>
@@ -62,13 +106,13 @@
 		<dd>Input file for the operation, or "-" to read from standard input (this is the default). Only used for <tt>--encipher</tt> or <tt>--decipher</tt>.</dd>
 	</dl>
 
-	<h3>2.2 Ciphertext/plaintext decoder mode</h3>
+	<h3><a name="sect-2-2">2.2 Ciphertext/plaintext decoder mode</a></h3>
 	<dl>
 		<dt>--known-plaintext</dt>
 		<dd>Attempt to figure out wiring based on plaintext/ciphertext. You will also be prompted for a rotor position if <tt>--rotorpos</tt> is not specified. The output of this operation is a machine file suitable for the simulator.</dd>
 	</dl>
 
-	<h2>3. Machine files</h2>
+	<h2><a name="sect-3">3. Machine files</a></h2>
 	<p>In order to exchange enciphered messages, both the sender and receiver must have:</p>
 	<ol>
 		<li>Machines with the same wiring</li>
@@ -78,12 +122,12 @@
 	<p>You should generate your own random <tt>.machine</tt> file to encipher messages with:</p>
 	<pre>java RotorCipher --new --output myfile.machine</pre>
 
-	<h2>4. Usage examples</h2>
-	<h3>4.1 Enciphering and deciphering messages (GUI)</h3>
+	<h2><a name="sect-4">4. Usage examples</a></h2>
+	<h3><a name="sect-4-1">4.1 Enciphering and deciphering messages (GUI)</a></h3>
 	<p>To launch the GUI using one of the example machines, use this command from the <tt>bin</tt> folder:</p>
 	<pre>java RotorCipher --simulate ../files/week01.machine</pre>
 
-	<h3>4.2 Interactive command-line mode</h3>
+	<h3><a name="sect-4-2">4.2 Interactive command-line mode</a></h3>
 	<p>To launch the same simulator in command-line mode, tack <tt>--cli</tt> option onto the command:</p>
 	<pre>java RotorCipher --cli --simulate ../files/week01.machine</pre>
 	<p>We can then encipher "testing testing" at Rotor position B:
@@ -101,7 +145,7 @@ Ciphertext: CJEULIJ HHYORFP
 Set rotor: C
 Ciphertext: CJEULIJ HHYORFP
 <b>xhyzdub ezggmak</b></pre>
-	<h3>4.3 Non-interactive mode</h3>
+	<h3><a name="sect-4-3">4.3 Non-interactive mode</a></h3>
 	<p>You can also read from a file, enciphering or deciphering it line-by-line. After each line, the rotor is returned to the starting position.</p>
 	<p>For example, to encipher "Hello this is a message" and store it to <tt>foo.txt</tt>, we could use this rather long invocation:</p>
 	<pre>echo "Hello this is a message" | java RotorCipher --simulate ../files/week02a.machine --rotorpos M --encipher --output foo.txt</pre>
@@ -111,20 +155,339 @@ QCVXA MUGY FQ P TDHUTFF</pre>
 	<p>To decode the message, we use <tt>--input foo.txt</tt>, and change the <tt>--encipher</tt> switch to <tt>--decipher</tt>:
 	<pre>$ java RotorCipher --simulate ../files/week02a.machine --rotorpos M --decipher --input foo.txt
 hello this is a message</pre>
-	<h3>4.4 Using with minimodem to transmit messages</h3>
+	<h3><a name="sect-4-4">4.4 Using with minimodem to transmit messages</a></h3>
 	<p>If you want to encipher some communications over-the-wire, then pipe output to <a href="http://www.whence.com/minimodem/">minimodem</a> like this:
 	<pre>java RotorCipher --simulate ../files/week02a.machine --rotorpos q --encipher | minimodem --tx 30</pre>
 	<p>And on the other end, use <tt>--decipher</tt> with minimodem's <tt>--rx</tt> switch:</p>
 	<pre>minimodem --rx 30 -q | java RotorCipher --simulate ../files/week02a.machine --rotorpos q --decipher</pre>
-	<h3>4.5 Finding rotor wiring from plaintext/ciphertext pair</h3>
-	<p>If you have plaintext and corresponding ciphertext, then you can find out how the machine was wired. This feature is not yet fully implemented, but you can see what stage it is at with the following command:</p>
-	<pre>java RotorCipher --known-plaintext --cli < ../files/week02a-decipher-input.txt</pre>
+	<h3><a name="sect-4-5">4.5 Finding rotor wiring from plaintext/ciphertext pair</a></h3>
+	<p>If you have plaintext and corresponding ciphertext, then you can find out how the machine was wired. This deature is only implemented in CLI mode. You can pass it the example enciphering to see how it works:</p>
+	<pre>java RotorCipher --known-plaintext --cli --output week02a-deciphered.machine < ../files/week02a-decipher-input.txt</pre>
 
-	<h2>5. Algorithms</h2>
-	<h3>5.1 Enciphering and deciphering messages</h3>
-	<p><i>To be written</i></p>
+	<h2><a name="sect-5">5. Algorithms</a></h2>
+	<h3><a name="sect-5-1">5.1 Enciphering and deciphering messages</a></h3>
+	<p>Messages will be enciphered and deciphered according to the wiring of an individual machine. The rotor is mobile and has 26 states.</p>
 
-	<h3>5.2 Most Likely Wiring algorithm</h3>
+	<p>A rotor's wiring is represented as a series of pairs, as they stand in the <b>A</b> position.</p>
+	<p>When enciphering at position A, the pair <b>Qf</b> means that when enciphering <b>f &rarr; Q</b>, and when deciphering <b>Q &rarr; f</b>.
+
+	<p>Each pair that is specified will be loaded into two tables. One for enciphering, and the other for deciphering. <b>Qf</b> looks like this:</p>
+	<table><tr>
+	<td>
+		<table class="ciphertable">
+			<caption>Enciphering table for a rotor with pair <b>Qf</b> at positon <b>A</b></caption>
+			<tr><th> </th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th><th>h</th><th>i</th><th>j</th><th>k</th><th>l</th><th>m</th><th>n</th><th>o</th><th>p</th><th>q</th><th>r</th><th>s</th><th>t</th><th>u</th><th>v</th><th>w</th><th>x</th><th>y</th><th>z</th></tr>
+			<tr><th>A</th><td> </td><td> </td><td> </td><td> </td><td> </td><td>Q</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		</table>
+	</td><td style="padding-left: 2em;">
+		<table class="ciphertable">
+		<caption>Deciphering table for a rotor with pair <b>Qf</b> at positon <b>A</b></caption>
+			<tr><th> </th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+			<tr><th>A</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>f</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		</table>
+	</td>
+	</tr></table>
+
+	<p>As the rotors move, the effect of this wire on positions B-Z is predictable. With each rotation, the letter affected changes, and the plaintext/ciphertext character returned goes down the alphabet one character</p>
+	<p>This means that the full table now follows this pattern:</p>
+
+	<table><tr>
+	<td>
+		<table class="ciphertable">
+		<caption>Full enciphering table for the pair Qf</caption>
+		<tr><th> </th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th>f</th><th>g</th><th>h</th><th>i</th><th>j</th><th>k</th><th>l</th><th>m</th><th>n</th><th>o</th><th>p</th><th>q</th><th>r</th><th>s</th><th>t</th><th>u</th><th>v</th><th>w</th><th>x</th><th>y</th><th>z</th></tr>
+		<tr><th>A</th><td> </td><td> </td><td> </td><td> </td><td> </td><td>Q</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>B</th><td> </td><td> </td><td> </td><td> </td><td>P</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>C</th><td> </td><td> </td><td> </td><td>O</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>D</th><td> </td><td> </td><td>N</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>E</th><td> </td><td>M</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>F</th><td>L</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>G</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>K</td></tr>
+		<tr><th>H</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>J</td><td> </td></tr>
+		<tr><th>I</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>I</td><td> </td><td> </td></tr>
+		<tr><th>J</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>H</td><td> </td><td> </td><td> </td></tr>
+		<tr><th>K</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>G</td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>L</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>F</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>M</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>E</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>N</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>D</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>O</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>C</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>P</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>B</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>Q</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>A</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>R</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>Z</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>S</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>Y</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>T</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>X</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>U</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>W</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>V</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>V</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>W</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>U</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>X</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>T</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>Y</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>S</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>Z</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>R</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		</table>
+	</td><td style="padding-left: 2em;">
+		<table class="ciphertable">
+		<caption>Full deciphering table for the pair Qf</caption>
+		<tr><th> </th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+		<tr><th>A</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>f</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>B</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>e</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>C</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>d</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>D</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>c</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>E</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>b</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>F</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>a</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>G</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>z</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>H</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>y</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>I</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>x</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>J</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>w</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>K</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>v</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>L</th><td> </td><td> </td><td> </td><td> </td><td> </td><td>u</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>M</th><td> </td><td> </td><td> </td><td> </td><td>t</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>N</th><td> </td><td> </td><td> </td><td>s</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>O</th><td> </td><td> </td><td>r</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>P</th><td> </td><td>q</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>Q</th><td>p</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>R</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>o</td></tr>
+		<tr><th>S</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>n</td><td> </td></tr>
+		<tr><th>T</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>m</td><td> </td><td> </td></tr>
+		<tr><th>U</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>l</td><td> </td><td> </td><td> </td></tr>
+		<tr><th>V</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>k</td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>W</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>j</td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>X</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>i</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>Y</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>h</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		<tr><th>Z</th><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td>g</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+		</table>
+	</tr></table>
+	<p>We need 26 defined pairs to fill a cipher table. When no pairs are defined, the default definition maps every letter to itself and will not transform the text at all.</p>
+
+	<p>In addition to this, input and output wiring can be added. This is functionally the same as an extra rotor on either side, but only position A is ever used (ie, it does not rotate).</p>
+
+	<p>The full process for enciphering a single character is then:</p>
+	<ol>
+	<li>Move the rotor one position</li>
+	<li>Encipher the character through the input wiring</li>
+	<li>Encipher the character through the rotor</li>
+	<li>Encipher the character through the output wiring</li>
+	</ol>
+	<p>And similarly to decipher:</li>
+	<li>Move the rotor one position</li>
+	<li>Decipher the character through the output wiring</li>
+	<li>Decipher the character through the rotor</li>
+	<li>Decipher the character through the input wiring</li>
+	</ol>
+
+	<h3><a name="sect-5-1-1">5.1.1 Example enciphering</a></h3>
+	<p>We will encipher the message "go pies" using the following random wiring at rotor position <b>L</b>:</p>
+	<pre># Mixed input
+inWiring "AZ BV CM DX EI FT GJ HN IW JP KE LL MC ND OY PB QA RK SH TR UQ VO WU XG YS ZF"
+
+# Rotor wiring
+rotor 1 wiring "HA MB DC FD NE GF CG XH SI UJ IK YL VM RN JO WP AQ QR KS ET BU PV ZW TX LY OZ"</pre>
+	<p>The enciphering and deciphering tables for the entire machine look like this:</p>
+
+<h4> Input wiring </h4>
+<table><tr>
+	<td>
+	<table class="ciphertable">
+		<caption>Encipher table</caption>
+		<tr><th> </th><th>a</th><th>b</th><th>c</th><th>d</th><th class="popular">e</th><th>f</th><th class="popular">g</th><th>h</th><th class="popular">i</th><th>j</th><th>k</th><th>l</th><th>m</th><th>n</th><th class="popular">o</th><th class="popular">p</th><th>q</th><th>r</th><th class="popular">s</th><th>t</th><th>u</th><th>v</th><th>w</th><th>x</th><th>y</th><th>z</th></tr>
+		<tr><th>A</th><td>Q</td><td>P</td><td>M</td><td>N</td><td class="popular">K</td><td>Z</td><td class="popular">X</td><td>S</td><td class="popular">E</td><td>G</td><td>R</td><td>L</td><td>C</td><td>H</td><td class="popular">V</td><td class="popular">J</td><td>U</td><td>T</td><td class="popular">Y</td><td>F</td><td>W</td><td>B</td><td>I</td><td>D</td><td>O</td><td>A</td></tr>
+	</table>
+	</td><td style="padding-left: 2em;">
+	<table class="ciphertable">
+		<caption>Decipher table</caption>
+		<tr><th> </th><th>A</th><th>B</th><th>C</th><th>D</th><th class="popular">E</th><th>F</th><th>G</th><th>H</th><th>I</th><th class="popular">J</th><th class="popular">K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th class="popular">V</th><th>W</th><th class="popular">X</th><th class="popular">Y</th><th>Z</th></tr>
+		<tr><th>A</th><td>z</td><td>v</td><td>m</td><td>x</td><td class="popular">i</td><td>t</td><td>j</td><td>n</td><td>w</td><td class="popular">p</td><td class="popular">e</td><td>l</td><td>c</td><td>d</td><td>y</td><td>b</td><td>a</td><td>k</td><td>h</td><td>r</td><td>q</td><td class="popular">o</td><td>u</td><td class="popular">g</td><td class="popular">s</td><td>f</td></tr>
+	</table>
+	</td>
+</tr></table>
+
+<h4> Rotor wiring </h4>
+<table><tr>
+	<td>
+	<table class="ciphertable">
+		<caption>Encipher table</caption>
+		<tr><th>&nbsp;</th><th>a</th><th>b</th><th>c</th><th>d</th><th class="popular">e</th><th>f</th><th>g</th><th>h</th><th>i</th><th class="popular">j</th><th class="popular">k</th><th>l</th><th>m</th><th>n</th><th>o</th><th>p</th><th>q</th><th>r</th><th>s</th><th>t</th><th>u</th><th class="popular">v</th><th>w</th><th class="popular">x</th><th class="popular">y</th><th>z</th></tr>
+		<tr><th>A</th><td>H</td><td>M</td><td>D</td><td>F</td><td>N</td><td>G</td><td>C</td><td>X</td><td>S</td><td>U</td><td>I</td><td>Y</td><td>V</td><td>R</td><td>J</td><td>W</td><td>A</td><td>Q</td><td>K</td><td>E</td><td>B</td><td>P</td><td>Z</td><td>T</td><td>L</td><td>O</td></tr>
+		<tr><th>B</th><td>L</td><td>C</td><td>E</td><td>M</td><td>F</td><td>B</td><td>W</td><td>R</td><td>T</td><td>H</td><td>X</td><td>U</td><td>Q</td><td>I</td><td>V</td><td>Z</td><td>P</td><td>J</td><td>D</td><td>A</td><td>O</td><td>Y</td><td>S</td><td>K</td><td>N</td><td>G</td></tr>
+		<tr><th>C</th><td>B</td><td>D</td><td>L</td><td>E</td><td>A</td><td>V</td><td>Q</td><td>S</td><td>G</td><td>W</td><td>T</td><td>P</td><td>H</td><td>U</td><td>Y</td><td>O</td><td>I</td><td>C</td><td>Z</td><td>N</td><td>X</td><td>R</td><td>J</td><td>M</td><td>F</td><td>K</td></tr>
+		<tr><th>D</th><td>C</td><td>K</td><td>D</td><td>Z</td><td>U</td><td>P</td><td>R</td><td>F</td><td>V</td><td>S</td><td>O</td><td>G</td><td>T</td><td>X</td><td>N</td><td>H</td><td>B</td><td>Y</td><td>M</td><td>W</td><td>Q</td><td>I</td><td>L</td><td>E</td><td>J</td><td>A</td></tr>
+		<tr><th>E</th><td>J</td><td>C</td><td>Y</td><td>T</td><td>O</td><td>Q</td><td>E</td><td>U</td><td>R</td><td>N</td><td>F</td><td>S</td><td>W</td><td>M</td><td>G</td><td>A</td><td>X</td><td>L</td><td>V</td><td>P</td><td>H</td><td>K</td><td>D</td><td>I</td><td>Z</td><td>B</td></tr>
+		<tr><th>F</th><td>B</td><td>X</td><td>S</td><td>N</td><td>P</td><td>D</td><td>T</td><td>Q</td><td>M</td><td>E</td><td>R</td><td>V</td><td>L</td><td>F</td><td>Z</td><td>W</td><td>K</td><td>U</td><td>O</td><td>G</td><td>J</td><td>C</td><td>H</td><td>Y</td><td>A</td><td>I</td></tr>
+		<tr><th>G</th><td>W</td><td>R</td><td>M</td><td>O</td><td>C</td><td>S</td><td>P</td><td>L</td><td>D</td><td>Q</td><td>U</td><td>K</td><td>E</td><td>Y</td><td>V</td><td>J</td><td>T</td><td>N</td><td>F</td><td>I</td><td>B</td><td>G</td><td>X</td><td>Z</td><td>H</td><td>A</td></tr>
+		<tr><th>H</th><td>Q</td><td>L</td><td>N</td><td>B</td><td>R</td><td>O</td><td>K</td><td>C</td><td>P</td><td>T</td><td>J</td><td>D</td><td>X</td><td>U</td><td>I</td><td>S</td><td>M</td><td>E</td><td>H</td><td>A</td><td>F</td><td>W</td><td>Y</td><td>G</td><td>Z</td><td>V</td></tr>
+		<tr><th>I</th><td>K</td><td>M</td><td>A</td><td>Q</td><td>N</td><td>J</td><td>B</td><td>O</td><td>S</td><td>I</td><td>C</td><td>W</td><td>T</td><td>H</td><td>R</td><td>L</td><td>D</td><td>G</td><td>Z</td><td>E</td><td>V</td><td>X</td><td>F</td><td>Y</td><td>U</td><td>P</td></tr>
+		<tr><th>J</th><td>L</td><td>Z</td><td>P</td><td>M</td><td>I</td><td>A</td><td>N</td><td>R</td><td>H</td><td>B</td><td>V</td><td>S</td><td>G</td><td>Q</td><td>K</td><td>C</td><td>F</td><td>Y</td><td>D</td><td>U</td><td>W</td><td>E</td><td>X</td><td>T</td><td>O</td><td>J</td></tr>
+		<tr><th>K</th><td>Y</td><td>O</td><td>L</td><td>H</td><td>Z</td><td>M</td><td>Q</td><td>G</td><td>A</td><td>U</td><td>R</td><td>F</td><td>P</td><td>J</td><td>B</td><td>E</td><td>X</td><td>C</td><td>T</td><td>V</td><td>D</td><td>W</td><td>S</td><td>N</td><td>I</td><td>K</td></tr>
+		<tr><th>L</th><td>N</td><td>K</td><td>G</td><td>Y</td><td>L</td><td>P</td><td>F</td><td>Z</td><td>T</td><td>Q</td><td>E</td><td>O</td><td>I</td><td>A</td><td>D</td><td>W</td><td>B</td><td>S</td><td>U</td><td>C</td><td>V</td><td>R</td><td>M</td><td>H</td><td>J</td><td>X</td></tr>
+		<tr><th class="popular">M</th><td>J</td><td>F</td><td>X</td><td>K</td><td>O</td><td>E</td><td>Y</td><td>S</td><td>P</td><td>D</td><td>N</td><td>H</td><td>Z</td><td>C</td><td>V</td><td>A</td><td>R</td><td>T</td><td>B</td><td>U</td><td>Q</td><td>L</td><td>G</td><td class="popular">I</td><td>W</td><td>M</td></tr>
+		<tr><th class="popular">N</th><td>E</td><td>W</td><td>J</td><td>N</td><td>D</td><td>X</td><td>R</td><td>O</td><td>C</td><td>M</td><td>G</td><td>Y</td><td>B</td><td>U</td><td>Z</td><td>Q</td><td>S</td><td>A</td><td>T</td><td>P</td><td>K</td><td class="popular">F</td><td>H</td><td>V</td><td>L</td><td>I</td></tr>
+		<tr><th class="popular">O</th><td>V</td><td>I</td><td>M</td><td>C</td><td>W</td><td>Q</td><td>N</td><td>B</td><td>L</td><td class="popular">F</td><td>X</td><td>A</td><td>T</td><td>Y</td><td>P</td><td>R</td><td>Z</td><td>S</td><td>O</td><td>J</td><td>E</td><td>G</td><td>U</td><td>K</td><td>H</td><td>D</td></tr>
+		<tr><th class="popular">P</th><td>H</td><td>L</td><td>B</td><td>V</td><td class="popular">P</td><td>M</td><td>A</td><td>K</td><td>E</td><td>W</td><td>Z</td><td>S</td><td>X</td><td>O</td><td>Q</td><td>Y</td><td>R</td><td>N</td><td>I</td><td>D</td><td>F</td><td>T</td><td>J</td><td>G</td><td>C</td><td>U</td></tr>
+		<tr><th class="popular">Q</th><td>K</td><td>A</td><td>U</td><td>O</td><td>L</td><td>Z</td><td>J</td><td>D</td><td>V</td><td>Y</td><td class="popular">R</td><td>W</td><td>N</td><td>P</td><td>X</td><td>Q</td><td>M</td><td>H</td><td>C</td><td>E</td><td>S</td><td>I</td><td>F</td><td>B</td><td>T</td><td>G</td></tr>
+		<tr><th class="popular">R</th><td>Z</td><td>T</td><td>N</td><td>K</td><td>Y</td><td>I</td><td>C</td><td>U</td><td>X</td><td>Q</td><td>V</td><td>M</td><td>O</td><td>W</td><td>P</td><td>L</td><td>G</td><td>B</td><td>D</td><td>R</td><td>H</td><td>E</td><td>A</td><td>S</td><td class="popular">F</td><td>J</td></tr>
+		<tr><th>S</th><td>S</td><td>M</td><td>J</td><td>X</td><td>H</td><td>B</td><td>T</td><td>W</td><td>P</td><td>U</td><td>L</td><td>N</td><td>V</td><td>O</td><td>K</td><td>F</td><td>A</td><td>C</td><td>Q</td><td>G</td><td>D</td><td>Z</td><td>R</td><td>E</td><td>I</td><td>Y</td></tr>
+		<tr><th>T</th><td>L</td><td>I</td><td>W</td><td>G</td><td>A</td><td>S</td><td>V</td><td>O</td><td>T</td><td>K</td><td>M</td><td>U</td><td>N</td><td>J</td><td>E</td><td>Z</td><td>B</td><td>P</td><td>F</td><td>C</td><td>Y</td><td>Q</td><td>D</td><td>H</td><td>X</td><td>R</td></tr>
+		<tr><th>U</th><td>H</td><td>V</td><td>F</td><td>Z</td><td>R</td><td>U</td><td>N</td><td>S</td><td>J</td><td>L</td><td>T</td><td>M</td><td>I</td><td>D</td><td>Y</td><td>A</td><td>O</td><td>E</td><td>B</td><td>X</td><td>P</td><td>C</td><td>G</td><td>W</td><td>Q</td><td>K</td></tr>
+		<tr><th>V</th><td>U</td><td>E</td><td>Y</td><td>Q</td><td>T</td><td>M</td><td>R</td><td>I</td><td>K</td><td>S</td><td>L</td><td>H</td><td>C</td><td>X</td><td>Z</td><td>N</td><td>D</td><td>A</td><td>W</td><td>O</td><td>B</td><td>F</td><td>V</td><td>P</td><td>J</td><td>G</td></tr>
+		<tr><th>W</th><td>D</td><td>X</td><td>P</td><td>S</td><td>L</td><td>Q</td><td>H</td><td>J</td><td>R</td><td>K</td><td>G</td><td>B</td><td>W</td><td>Y</td><td>M</td><td>C</td><td>Z</td><td>V</td><td>N</td><td>A</td><td>E</td><td>U</td><td>O</td><td>I</td><td>F</td><td>T</td></tr>
+		<tr><th>X</th><td>W</td><td>O</td><td>R</td><td>K</td><td>P</td><td>G</td><td>I</td><td>Q</td><td>J</td><td>F</td><td>A</td><td>V</td><td>X</td><td>L</td><td>B</td><td>Y</td><td>U</td><td>M</td><td>Z</td><td>D</td><td>T</td><td>N</td><td>H</td><td>E</td><td>S</td><td>C</td></tr>
+		<tr><th>Y</th><td>N</td><td>Q</td><td>J</td><td>O</td><td>F</td><td>H</td><td>P</td><td>I</td><td>E</td><td>Z</td><td>U</td><td>W</td><td>K</td><td>A</td><td>X</td><td>T</td><td>L</td><td>Y</td><td>C</td><td>S</td><td>M</td><td>G</td><td>D</td><td>R</td><td>B</td><td>V</td></tr>
+		<tr><th>Z</th><td>P</td><td>I</td><td>N</td><td>E</td><td>G</td><td>O</td><td>H</td><td>D</td><td>Y</td><td>T</td><td>V</td><td>J</td><td>Z</td><td>W</td><td>S</td><td>K</td><td>X</td><td>B</td><td>R</td><td>L</td><td>F</td><td>C</td><td>Q</td><td>A</td><td>U</td><td>M</td></tr>
+	</table>
+	</td><td style="padding-left: 2em;">
+		<table class="ciphertable">
+		<caption>Decipher table</caption>
+		<tr><th>&nbsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th class="popular">F</th><th>G</th><th>H</th><th class="popular">I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th class="popular">P</th><th>Q</th><th class="popular">R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+		<tr><th>A</th><td>q</td><td>u</td><td>g</td><td>c</td><td>t</td><td>d</td><td>f</td><td>a</td><td>k</td><td>o</td><td>s</td><td>y</td><td>b</td><td>e</td><td>z</td><td>v</td><td>r</td><td>n</td><td>i</td><td>x</td><td>j</td><td>m</td><td>p</td><td>h</td><td>l</td><td>w</td></tr>
+		<tr><th>B</th><td>t</td><td>f</td><td>b</td><td>s</td><td>c</td><td>e</td><td>z</td><td>j</td><td>n</td><td>r</td><td>x</td><td>a</td><td>d</td><td>y</td><td>u</td><td>q</td><td>m</td><td>h</td><td>w</td><td>i</td><td>l</td><td>o</td><td>g</td><td>k</td><td>v</td><td>p</td></tr>
+		<tr><th>C</th><td>e</td><td>a</td><td>r</td><td>b</td><td>d</td><td>y</td><td>i</td><td>m</td><td>q</td><td>w</td><td>z</td><td>c</td><td>x</td><td>t</td><td>p</td><td>l</td><td>g</td><td>v</td><td>h</td><td>k</td><td>n</td><td>f</td><td>j</td><td>u</td><td>o</td><td>s</td></tr>
+		<tr><th>D</th><td>z</td><td>q</td><td>a</td><td>c</td><td>x</td><td>h</td><td>l</td><td>p</td><td>v</td><td>y</td><td>b</td><td>w</td><td>s</td><td>o</td><td>k</td><td>f</td><td>u</td><td>g</td><td>j</td><td>m</td><td>e</td><td>i</td><td>t</td><td>n</td><td>r</td><td>d</td></tr>
+		<tr><th>E</th><td>p</td><td>z</td><td>b</td><td>w</td><td>g</td><td>k</td><td>o</td><td>u</td><td>x</td><td>a</td><td>v</td><td>r</td><td>n</td><td>j</td><td>e</td><td>t</td><td>f</td><td>i</td><td>l</td><td>d</td><td>h</td><td>s</td><td>m</td><td>q</td><td>c</td><td>y</td></tr>
+		<tr><th>F</th><td>y</td><td>a</td><td>v</td><td>f</td><td>j</td><td>n</td><td>t</td><td>w</td><td>z</td><td>u</td><td>q</td><td>m</td><td>i</td><td>d</td><td>s</td><td>e</td><td>h</td><td>k</td><td>c</td><td>g</td><td>r</td><td>l</td><td>p</td><td>b</td><td>x</td><td>o</td></tr>
+		<tr><th>G</th><td>z</td><td>u</td><td>e</td><td>i</td><td>m</td><td>s</td><td>v</td><td>y</td><td>t</td><td>p</td><td>l</td><td>h</td><td>c</td><td>r</td><td>d</td><td>g</td><td>j</td><td>b</td><td>f</td><td>q</td><td>k</td><td>o</td><td>a</td><td>w</td><td>n</td><td>x</td></tr>
+		<tr><th>H</th><td>t</td><td>d</td><td>h</td><td>l</td><td>r</td><td>u</td><td>x</td><td>s</td><td>o</td><td>k</td><td>g</td><td>b</td><td>q</td><td>c</td><td>f</td><td>i</td><td>a</td><td>e</td><td>p</td><td>j</td><td>n</td><td>z</td><td>v</td><td>m</td><td>w</td><td>y</td></tr>
+		<tr><th>I</th><td>c</td><td>g</td><td>k</td><td>q</td><td>t</td><td>w</td><td>r</td><td>n</td><td>j</td><td>f</td><td>a</td><td>p</td><td>b</td><td>e</td><td>h</td><td>z</td><td>d</td><td>o</td><td>i</td><td>m</td><td>y</td><td>u</td><td>l</td><td>v</td><td>x</td><td>s</td></tr>
+		<tr><th>J</th><td>f</td><td>j</td><td>p</td><td>s</td><td>v</td><td>q</td><td>m</td><td>i</td><td>e</td><td>z</td><td>o</td><td>a</td><td>d</td><td>g</td><td>y</td><td>c</td><td>n</td><td>h</td><td>l</td><td>x</td><td>t</td><td>k</td><td>u</td><td>w</td><td>r</td><td>b</td></tr>
+		<tr><th>K</th><td>i</td><td>o</td><td>r</td><td>u</td><td>p</td><td>l</td><td>h</td><td>d</td><td>y</td><td>n</td><td>z</td><td>c</td><td>f</td><td>x</td><td>b</td><td>m</td><td>g</td><td>k</td><td>w</td><td>s</td><td>j</td><td>t</td><td>v</td><td>q</td><td>a</td><td>e</td></tr>
+		<tr><th>L</th><td>n</td><td>q</td><td>t</td><td>o</td><td>k</td><td>g</td><td>c</td><td>x</td><td>m</td><td>y</td><td>b</td><td>e</td><td>w</td><td>a</td><td>l</td><td>f</td><td>j</td><td>v</td><td>r</td><td>i</td><td>s</td><td>u</td><td>p</td><td>z</td><td>d</td><td>h</td></tr>
+		<tr><th class="popular">M</th><td>p</td><td>s</td><td>n</td><td>j</td><td>f</td><td>b</td><td>w</td><td>l</td><td class="popular">x</td><td>a</td><td>d</td><td>v</td><td>z</td><td>k</td><td>e</td><td>i</td><td>u</td><td>q</td><td>h</td><td>r</td><td>t</td><td>o</td><td>y</td><td>c</td><td>g</td><td>m</td></tr>
+		<tr><th class="popular">N</th><td>r</td><td>m</td><td>i</td><td>e</td><td>a</td><td class="popular">v</td><td>k</td><td>w</td><td>z</td><td>c</td><td>u</td><td>y</td><td>j</td><td>d</td><td>h</td><td>t</td><td>p</td><td>g</td><td>q</td><td>s</td><td>n</td><td>x</td><td>b</td><td>f</td><td>l</td><td>o</td></tr>
+		<tr><th class="popular">O</th><td>l</td><td>h</td><td>d</td><td>z</td><td>u</td><td class="popular">j</td><td>v</td><td>y</td><td>b</td><td>t</td><td>x</td><td>i</td><td>c</td><td>g</td><td>s</td><td>o</td><td>f</td><td>p</td><td>r</td><td>m</td><td>w</td><td>a</td><td>e</td><td>k</td><td>n</td><td>q</td></tr>
+		<tr><th class="popular">P</th><td>g</td><td>c</td><td>y</td><td>t</td><td>i</td><td>u</td><td>x</td><td>a</td><td>s</td><td>w</td><td>h</td><td>b</td><td>f</td><td>r</td><td>n</td><td class="popular">e</td><td>o</td><td>q</td><td>l</td><td>v</td><td>z</td><td>d</td><td>j</td><td>m</td><td>p</td><td>k</td></tr>
+		<tr><th class="popular">Q</th><td>b</td><td>x</td><td>s</td><td>h</td><td>t</td><td>w</td><td>z</td><td>r</td><td>v</td><td>g</td><td>a</td><td>e</td><td>q</td><td>m</td><td>d</td><td>n</td><td>p</td><td class="popular">k</td><td>u</td><td>y</td><td>c</td><td>i</td><td>l</td><td>o</td><td>j</td><td>f</td></tr>
+		<tr><th class="popular">R</th><td>w</td><td>r</td><td>g</td><td>s</td><td>v</td><td class="popular">y</td><td>q</td><td>u</td><td>f</td><td>z</td><td>d</td><td>p</td><td>l</td><td>c</td><td>m</td><td>o</td><td>j</td><td>t</td><td>x</td><td>b</td><td>h</td><td>k</td><td>n</td><td>i</td><td>e</td><td>a</td></tr>
+		<tr><th>S</th><td>q</td><td>f</td><td>r</td><td>u</td><td>x</td><td>p</td><td>t</td><td>e</td><td>y</td><td>c</td><td>o</td><td>k</td><td>b</td><td>l</td><td>n</td><td>i</td><td>s</td><td>w</td><td>a</td><td>g</td><td>j</td><td>m</td><td>h</td><td>d</td><td>z</td><td>v</td></tr>
+		<tr><th>T</th><td>e</td><td>q</td><td>t</td><td>w</td><td>o</td><td>s</td><td>d</td><td>x</td><td>b</td><td>n</td><td>j</td><td>a</td><td>k</td><td>m</td><td>h</td><td>r</td><td>v</td><td>z</td><td>f</td><td>i</td><td>l</td><td>g</td><td>c</td><td>y</td><td>u</td><td>p</td></tr>
+		<tr><th>U</th><td>p</td><td>s</td><td>v</td><td>n</td><td>r</td><td>c</td><td>w</td><td>a</td><td>m</td><td>i</td><td>z</td><td>j</td><td>l</td><td>g</td><td>q</td><td>u</td><td>y</td><td>e</td><td>h</td><td>k</td><td>f</td><td>b</td><td>x</td><td>t</td><td>o</td><td>d</td></tr>
+		<tr><th>V</th><td>r</td><td>u</td><td>m</td><td>q</td><td>b</td><td>v</td><td>z</td><td>l</td><td>h</td><td>y</td><td>i</td><td>k</td><td>f</td><td>p</td><td>t</td><td>x</td><td>d</td><td>g</td><td>j</td><td>e</td><td>a</td><td>w</td><td>s</td><td>n</td><td>c</td><td>o</td></tr>
+		<tr><th>W</th><td>t</td><td>l</td><td>p</td><td>a</td><td>u</td><td>y</td><td>k</td><td>g</td><td>x</td><td>h</td><td>j</td><td>e</td><td>o</td><td>s</td><td>w</td><td>c</td><td>f</td><td>i</td><td>d</td><td>z</td><td>v</td><td>r</td><td>m</td><td>b</td><td>n</td><td>q</td></tr>
+		<tr><th>X</th><td>k</td><td>o</td><td>z</td><td>t</td><td>x</td><td>j</td><td>f</td><td>w</td><td>g</td><td>i</td><td>d</td><td>n</td><td>r</td><td>v</td><td>b</td><td>e</td><td>h</td><td>c</td><td>y</td><td>u</td><td>q</td><td>l</td><td>a</td><td>m</td><td>p</td><td>s</td></tr>
+		<tr><th>Y</th><td>n</td><td>y</td><td>s</td><td>w</td><td>i</td><td>e</td><td>v</td><td>f</td><td>h</td><td>c</td><td>m</td><td>q</td><td>u</td><td>a</td><td>d</td><td>g</td><td>b</td><td>x</td><td>t</td><td>p</td><td>k</td><td>z</td><td>l</td><td>o</td><td>r</td><td>j</td></tr>
+		<tr><th>Z</th><td>x</td><td>r</td><td>v</td><td>h</td><td>d</td><td>u</td><td>e</td><td>g</td><td>b</td><td>l</td><td>p</td><td>t</td><td>z</td><td>c</td><td>f</td><td>a</td><td>w</td><td>s</td><td>o</td><td>j</td><td>y</td><td>k</td><td>n</td><td>q</td><td>i</td><td>m</td></tr>
+	</table>
+	</td>
+</tr></table>
+
+<h4>Output wiring</h4>
+<table><tr>
+	<td>
+	<table class="ciphertable">
+		<caption>Encipher table</caption>
+		<tr><th> </th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th><th class="popular">f</th><th>g</th><th>h</th><th class="popular">i</th><th>j</th><th>k</th><th>l</th><th>m</th><th>n</th><th>o</th><th class="popular">p</th><th>q</th><th class="popular">r</th><th>s</th><th>t</th><th>u</th><th>v</th><th>w</th><th>x</th><th>y</th><th>z</th></tr>
+		<tr><th>A</th><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td><td class="popular">F</td><td>G</td><td>H</td><td class="popular">I</td><td>J</td><td>K</td><td>L</td><td>M</td><td>N</td><td>O</td><td class="popular">P</td><td>Q</td><td class="popular">R</td><td>S</td><td>T</td><td>U</td><td>V</td><td>W</td><td>X</td><td>Y</td><td>Z</td></tr>
+	</table>
+	</td><td style="padding-left: 2em;">
+	<table class="ciphertable">
+		<caption>Decipher table</caption>
+		<tr><th> </th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th class="popular">F</th><th>G</th><th>H</th><th class="popular">I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th class="popular">P</th><th>Q</th><th class="popular">R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+		<tr><th>A</th><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td class="popular">f</td><td>g</td><td>h</td><td class="popular">i</td><td>j</td><td>k</td><td>l</td><td>m</td><td>n</td><td>o</td><td class="popular">p</td><td>q</td><td class="popular">r</td><td>s</td><td>t</td><td>u</td><td>v</td><td>w</td><td>x</td><td>y</td><td>z</td></tr>
+	</table>
+	</td>
+</tr></table>
+
+<p>Note that because we move the rotor before enciphering each character, the first letter is enciphered at position <b>M</b>. This process moved through the three tables on the left in order to produce the ciphertext:</p>
+<table class="ciphertable">
+<caption>Enciphering "go pies"</caption>
+<tr>
+	<th>Rotor&nbsp;position</th>
+	<th>M</th>
+	<th>N</th>
+	<th>O</th>
+	<th>P</th>
+	<th>Q</th>
+	<th>R</th>
+</tr>
+<tr>
+	<th>Input</th>
+	<td>g</td>
+	<td>o</td>
+	<td>p</td>
+	<td>i</td>
+	<td>e</td>
+	<td>s</td>
+</tr>
+<tr>
+	<th>After&nbsp;input&nbsp;wiring</th>
+	<td>X</td>
+	<td>V</td>
+	<td>J</td>
+	<td>E</td>
+	<td>K</td>
+	<td>Y</td>
+</tr>
+<tr>
+	<th>After&nbsp;rotor</th>
+	<td>I</td>
+	<td>F</td>
+	<td>F</td>
+	<td>P</td>
+	<td>R</td>
+	<td>F</td>
+</tr>
+<tr>
+	<th>After&nbsp;output&nbsp;wiring</th>
+	<td>I</td>
+	<td>F</td>
+	<td>F</td>
+	<td>P</td>
+	<td>R</td>
+	<td>F</td>
+</tr>
+</table>
+
+<p>Note that the output wiring does no mixing in this example.</p>
+<p>To reverse the transformation, similar lookups are done in the deciphering table. (Read the three tables on the right from bottom-to-top)</p>
+
+<table class="ciphertable">
+<caption>Deciphering "go pies"</caption>
+<tr>
+	<th>Rotor&nbsp;position</th>
+	<th>M</th>
+	<th>N</th>
+	<th>O</th>
+	<th>P</th>
+	<th>Q</th>
+	<th>R</th>
+</tr>
+<tr>
+	<th>Input</th>
+	<td>I</td>
+	<td>F</td>
+	<td>F</td>
+	<td>P</td>
+	<td>R</td>
+	<td>F</td>
+
+
+</tr>
+<tr>
+	<th>After&nbsp;output&nbsp;wiring</th>
+	<td>i</td>
+	<td>f</td>
+	<td>f</td>
+	<td>p</td>
+	<td>r</td>
+	<td>f</td>
+</tr>
+<tr>
+	<th>After&nbsp;rotor</th>
+	<td>x</td>
+	<td>v</td>
+	<td>j</td>
+	<td>e</td>
+	<td>k</td>
+	<td>y</td>
+</tr>
+<tr>
+	<th>After&nbsp;input&nbsp;wiring</th>
+	<td>g</td>
+	<td>o</td>
+	<td>p</td>
+	<td>i</td>
+	<td>e</td>
+	<td>s</td>
+</tr>
+</table>
+
+	<h3><a name="sect-5-2">5.2 Most Likely Wiring algorithm</a></h3>
 	<p>The most likely wiring algorithm can be used to suggest the wiring of a machine based on a sample of known plaintext and corresponding ciphertext. This example uses the following sample of plaintext:</p>
 <pre>incla ssica lcryp togra phyon eofth eearl ieste ncryp tionm
 ethod swast hesim plesu bstit ution ciphe rwher elett ersin
@@ -352,7 +715,7 @@ NE</pre>
 
 <table class="ciphertable">
 	<tr><th>&nbsp;</th><th>e</th><th>d</th><th>g</th><th> </th><th>r</th><th>s</th><th>b</th><th>f</th><th>u</th><th>w</th><th>l</th><th>c</th><th>h</th><th>m</th><th>t</th><th>i</th><th>p</th><th> </th><th>n</th><th>y</th><th> </th><th> </th><th>a</th><th> </th><th> </th><th>o</th></tr>
-<tr><th>&nbsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
+	<tr><th>&nbsp;</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th><th>V</th><th>W</th><th>X</th><th>Y</th><th>Z</th></tr>
 	<tr><th>A</th><td>Z</td><td>E</td><td>J</td><td>N</td><td>T</td><td>I</td><td>R</td><td>O</td><td>Y</td><td>H</td><td>C</td><td>M</td><td>W</td><td>X</td><td>K</td><td>G</td><td>V</td><td>L</td><td>D</td><td>S</td><td>P</td><td>F</td><td>Q</td><td>A</td><td>B</td><td>U</td></tr>
 	<tr><th>B</th><td>D</td><td>I</td><td>M</td><td>S</td><td>H</td><td>Q</td><td>N</td><td>X</td><td>G</td><td>B</td><td>L</td><td>V</td><td>W</td><td>J</td><td>F</td><td>U</td><td>K</td><td>C</td><td>R</td><td>O</td><td>E</td><td>P</td><td>Z</td><td>A</td><td>T</td><td>Y</td></tr>
 	<tr><th>C</th><td>H</td><td>L</td><td>R</td><td>G</td><td>P</td><td>M</td><td>W</td><td>F</td><td>A</td><td>K</td><td>U</td><td>V</td><td>I</td><td>E</td><td>T</td><td>J</td><td>B</td><td>Q</td><td>N</td><td>D</td><td>O</td><td>Y</td><td>Z</td><td>S</td><td>X</td><td>C</td></tr>
@@ -382,7 +745,7 @@ NE</pre>
 </table>
 <p>At this point, we have a fully populated ciphertext table with just a couple of blanks, corresponding to lesser-used characters.</p>
 
-<h4>5.2 Most Likely Wiring algorithm</h4>
+<h4><a name="sect-5-2-1">5.2.1 Building a machine file from the cipher table</a></h4>
 <p>The above is quite sufficient for hand-encoding and decoding of messages. This next section deals with the simple task of writing the table to a <tt>.machine</tt> file. There are a few more things which we need to calculate at this point:</p>
 <ol>
 	<li>Which letters cannot be enciphered by this input wiring. These are the ones which do not appear in the top row: <b>z v j x q k</b></li>
@@ -423,7 +786,7 @@ name "Machine 1"
 selectRotors 1
 setRotorsTo F</pre>
 
-<p>The following complete <tt>.machine</tt> file can now be run in the simulator to decrypt any more messages we pick up:</p>
+<p>The following complete <tt>.machine</tt> file can now be run in the simulator to decipher any more messages we pick up:</p>
 <pre># Machine name
 name "Machine 1"
 
@@ -438,5 +801,10 @@ rotor 1 wiring "ZA EB JC ND TE IF RG OH YI HJ CK ML WM XN KO GP VQ LR DS ST PU F
 selectRotors 1
 setRotorsTo F</pre>
 
+<h2><a name="sect-6">6. Limitations and practical considerations</a></h2>
+<p>It should go without saying that this program is not intended to facilitate secure communications &mdash; It is a demonstration of one extremely dated type of polyalphabetic substitution cipher, and should not be used with any expectation of security.</p>
+<p>This program will re-use the same configuration many times. For example, when piping output to another program, it will re-set the rotor to the starting position after each line. This is done to make it easy for programs to recover from errors by simply starting a new line, but the predictability of the enciphering creates a major weakness of its own.</p>
+<p>The known-plaintext algorithm relies on unmixed output, by using the alphabet as a pattern. The simulator will happily mix outputs if <tt>outWiring</tt> is set in the machine file, but generated machines will always have unmixed output.</p>
+<p>In general, short messages containing pseudo-grable, enciphered with random machines (with the addition of mixed output) would have the lowest chance of being deciphered.</p>
 </body>
 </html>

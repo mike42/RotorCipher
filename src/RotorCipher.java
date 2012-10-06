@@ -103,7 +103,11 @@ class RotorCipher {
 			}
 
 			if(switchVerbose) {
-				System.out.println(RotorMachineSimulator.machine);
+				if(switchHTML) {
+					System.out.println(RotorMachineSimulator.machine.toHTML());
+				} else {
+					System.out.println(RotorMachineSimulator.machine);
+				}
 			}
 			
 			if(switchCli) {
@@ -136,6 +140,9 @@ class RotorCipher {
 			"	--verbose\n" +
 			"		Print extra information which may be useful for debugging\n" + 
 			"		unexpected output.\n" +
+			"	--html\n" +
+			"		Used in conjunction with --verbose to get tables in HTML\n" + 
+			"		rather than plaintext.\n" +
 			"\n" +
 			"Arguments for simulator mode\n" +
 			"	--simulate file.machine\n" +
