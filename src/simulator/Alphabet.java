@@ -24,7 +24,7 @@ public class Alphabet {
 	 * @param inp String representing all characters of the alphabet.
 	 */
 	public Alphabet(String inp) {
-		/* {{TODO}} strip duplicate and out-of-range letters from input */
+		/* TODO strip duplicate and out-of-range letters from input */
 		int i;
 		char c;
 		char[] letter = inp.toCharArray();

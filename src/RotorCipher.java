@@ -65,7 +65,7 @@ class RotorCipher {
 			if(switchCli) {
 				RotorMachineDecoder.decodeCLI(rotorPos, switchHTML);
 			} else {
-				// TODO
+				// TODO create GUI for this
 				System.out.println("GUI for finding rotor wiring has not been implemented. Use --cli");
 			}
 		} else {
