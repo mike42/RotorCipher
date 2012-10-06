@@ -228,7 +228,8 @@ public class RotorMachine {
 	 * @return	a ciphertext representation of the character, or the input character if it is not in the alphabet.
 	 */
 	public char encipherChar(char in) {
-		if(!alphabet.hasChar(in)) {
+		if(!alphabet.hasChar(in) && in != '_') {
+			/* Return without even rotating. Skips over spaces, full-stops, etc */
 			return in;
 		}
 
@@ -236,7 +237,7 @@ public class RotorMachine {
 		rotor.rotate();
 
 		char out = in;
-
+			
 		/* Pass letter to input wiring (defaults to 1-1 [no transformation] if not set) */
 		out = inWiring.encipherChar(out);
 
@@ -245,6 +246,7 @@ public class RotorMachine {
 
 		/* Pass through output wiring */
 		out = outWiring.encipherChar(out);
+
 		return out;
 	}
 
@@ -270,7 +272,8 @@ public class RotorMachine {
 	 * @return	The plaintext for this character.
 	 */
 	public char decipherChar(char in) {
-		if(!alphabet.hasChar(in)) {
+		if(!alphabet.hasChar(in) && in != '_') {
+			/* Return without even rotating. Skips over spaces, full-stops, etc */
 			return in;
 		}
 
@@ -539,12 +542,25 @@ public class RotorMachine {
 	}
 	
 	private static boolean validateWiring(Alphabet alphabet, String[] pair) {
+		char[] thisPair;
 		for(int i = 0; i < pair.length; i++) {
-			/* Verify that this list contains only pairs of characters in the alphabet */
-			if(pair[i].length() != 2 || !alphabet.hasChar(pair[i].charAt(0)) || !alphabet.hasChar(pair[i].charAt(1))) {
+			thisPair = pair[i].toCharArray();
+			/* Verify that this list contains only pairs of characters in the alphabet, or question marks */
+			if(thisPair.length != 2) {
+				/* Incorrect length */
+				return false;
+			} else if (!(thisPair[0] == '_' || alphabet.hasChar(thisPair[0])) || !(thisPair[1] == '_' || alphabet.hasChar(thisPair[1]))) {
+				/* Allow only alphabetic characters and question marks */
+				return false;
+			} else if (thisPair[0] == '_' && thisPair[1] == '_') {
+				/* But can't map nothing-from-nothing */
 				return false;
 			}
 		}
 		return true;
+	}
+	
+	public String toString() {
+		return  "== Input wiring== \n" + inWiring + "\n==Rotor wiring==\n" + rotorLibrary[selectedRotors[0]] + "\n==Output wiring==\n" + outWiring;
 	}
 }

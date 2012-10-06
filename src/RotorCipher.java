@@ -13,6 +13,7 @@ class RotorCipher {
 		boolean switchCli = false;
 		boolean switchKnownPlaintext = false;
 		boolean switchHTML = false;
+		boolean switchVerbose = false;
 		String rotorPos = "";
 		/* Simulator mode */
 		String simulate = "-";
@@ -45,6 +46,7 @@ class RotorCipher {
 				} else if(args[i].equals("--input")) {				collect = "--input";
 				} else if(args[i].equals("--html")) {				switchHTML = true;
 				} else if(args[i].equals("--known-plaintext")) {	switchKnownPlaintext = true;
+				} else if(args[i].equals("--verbose")) {			switchVerbose = true;
 				} else {
 					invalid = true;
 					break;
@@ -92,6 +94,10 @@ class RotorCipher {
 				RotorMachineSimulator.machine.setRotorsTo(rotorPos.toCharArray());
 			}
 
+			if(switchVerbose) {
+				System.out.println(RotorMachineSimulator.machine);
+			}
+			
 			if(switchCli) {
 				RotorMachineSimulator.startCLI(simMode, input, output, rotorPos);
 			} else {
