@@ -400,17 +400,7 @@ public class RotorMachine {
 
 	private static boolean processCommand(RotorMachine machine, String command, String[] arg) throws Exception {
 		int i;
-		/*	# Machine
-		name "Week 1 Rotor Machine"
 
-		# Wiring
-		rotorCount 1
-		rotor 1 name "Rotor 1"
-		rotor 1 wiring "FA TB QC JD VE AF XG MH WI DJ SK NL HM LN RO UP CQ OR KS BT PU EV IW GX ZY YZ"
-
-		# Default config
-		selectRotors 1
-		setRotorsTo A */
 		try {
 			if(command.equals("name")) {
 				/* Set rotor name */
