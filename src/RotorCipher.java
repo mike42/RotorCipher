@@ -63,7 +63,7 @@ class RotorCipher {
 		} if(switchKnownPlaintext) {
 			/* Known plaintext mode */
 			if(switchCli) {
-				RotorMachineDecoder.decodeCLI(rotorPos, switchHTML);
+				RotorMachineDecoder.decodeCLI(rotorPos, switchHTML, switchVerbose, output);
 			} else {
 				// TODO create GUI for this
 				System.out.println("GUI for finding rotor wiring has not been implemented. Use --cli");

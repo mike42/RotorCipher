@@ -1,10 +1,17 @@
 package decoderPlaintext;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+
 import simulator.Alphabet;
 
 public class RotorCipherTable {
 	char[] secondHeadings;
+	char rotorStart;
 	
 	CipherTableColumn[] column;
 	Alphabet alphabet;
@@ -35,6 +42,8 @@ public class RotorCipherTable {
 	}
 
 	public boolean readIn(char[] plain, char[] cipher, char rotorPos) {
+		rotorStart = rotorPos;
+		
 		if(plain.length != cipher.length) {
 			return false;
 		}
@@ -76,7 +85,6 @@ public class RotorCipherTable {
 		}
 		return outp;
 	}
-	
 	
 	/**
 	 * Spew out a HTML cipher table.
@@ -257,6 +265,120 @@ public class RotorCipherTable {
 			x = nextX;
 			y = nextY;
 			curChar = nextChar;
+		}
+	}
+	
+	/**
+	 * Create a machine file based on this cipher table.
+	 * 
+	 * @param output The file to output to, or "-" for stdout
+	 */
+	public void makeMachine(String output) {
+		int i, l = alphabet.length();
+		boolean charUsed[] = new boolean[l];
+		
+		/* Open output */
+		try {
+			BufferedWriter out;
+			if(output.equals("-")) {
+				out = new BufferedWriter(new OutputStreamWriter(System.out));
+			} else {
+				out = new BufferedWriter(new FileWriter(output));
+			}
+			
+			/* Output machine name */
+			String timestamp = new SimpleDateFormat("yyyy-MM-dd").format(new Date().getTime());
+			out.write("# Automatically generated machine definition, created " + timestamp);
+			out.newLine();
+			out.newLine();
+			out.write("# Machine name");
+			out.newLine();
+			out.write("name \"Copycat Machine " + timestamp + "\"");
+			out.newLine();
+			out.newLine();
+			
+			/* Find input wiring */
+			boolean first = true;
+			for(i = 0; i < l; i++) {
+				/* No characters used yet */
+				charUsed[i] = false;
+			}
+			for(i = 0; i < l; i++) {
+				if(first) {
+					first = false;
+					out.write("# Input wiring");
+					out.newLine();
+					out.write("inWiring \"");
+				} else {
+					out.write(" ");
+				}
+				if(secondHeadings[i] == ' ') {
+					out.write(new char[] {alphabet.getCharFromIndex(i), '_'});
+				} else {
+					charUsed[alphabet.getIndexFromChar(secondHeadings[i])] = true;
+					out.write(new char[] {alphabet.getCharFromIndex(i), secondHeadings[i]});
+				}
+			}
+			/* Clean up with unused letters */
+			for(i = 0; i < l; i++) {
+				if(!charUsed[i]) {
+					out.write(new char[] {' ', '_', alphabet.getCharFromIndex(i)});
+				}
+				/* Set back to false to re-use below */
+				charUsed[i] = false;
+			}
+			out.write("\"");
+			out.newLine();
+			out.newLine();
+			
+			/* Find rotor wiring */
+			first = true;
+			for(i = 0; i < l; i++) {
+				if(first) {
+					first = false;
+					out.write("# Rotor wiring");
+					out.newLine();
+					out.write("rotor 1 name \"Rotor 1\"");
+					out.newLine();
+					out.write("rotor 1 wiring \"");
+				} else {
+					out.write(" ");
+				}
+
+				if(column[i].cell[0] == '\0') {
+					out.write(new char[] {'_', alphabet.getCharFromIndex(i)});
+				} else {
+					charUsed[alphabet.getIndexFromChar(column[i].cell[0])] = true;
+					out.write(new char[] {column[i].cell[0], alphabet.getCharFromIndex(i)});
+				}
+				
+			}
+			
+			for(i = 0; i < l; i++) {
+				if(!charUsed[i]) {
+					out.write(new char[] {' ', alphabet.getCharFromIndex(i), '_'});
+				}
+				/* Set back to false to re-use below */
+				charUsed[i] = false;
+			}
+			
+			out.write("\"");
+			out.newLine();
+			out.newLine();
+			
+			out.write("# Default config");
+			out.newLine();
+			
+			out.write("selectRotors 1");
+			out.newLine();
+			
+			out.write("setRotorsTo " + new String(new char[] {rotorStart}));
+			out.newLine();
+			
+			out.flush();
+		} catch(Exception e) {
+			System.out.println("Failed to create machine due to error");
+			e.printStackTrace();
 		}
 	}
 }

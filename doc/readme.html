@@ -399,15 +399,15 @@ Reading across the top two rows and skipping blanks, read each pair of letters l
 </p>
 <p>Put these together in pairs to form the following input wiring string:</p>
 <pre>AE BD CG ER FS GB HF IU JW KL LC MH NM OT PI QP SN TY WA ZO</pre>
-<p>Now read the blanks and put an underscore after them instead &mdash; No inputs lead to these letters.</p>
+<p>Now read the blanks and put an underscore after them instead &mdash; No inputs lead to these letters:</p>
 <pre>D_ R_ U_ V_ X_ Y_ (D from nothing, R from nothing, etc)</pre>
-<p>And those letters which don't appear in the top row are instead prefixed with an underscore &mdash; These letters return nothing.</p>
+<p>And those letters which don't appear in the top row are instead prefixed with an underscore &mdash; These letters return nothing:</p>
 <pre>_Z _V _J _X _Q _K (Nothing from Z, nothing from V, nothing from J, etc)</pre>
 <p>This is now the inWiring line of the machine file:</p>
 <pre># Input wiring
 inWiring "AE BD CG ER FS GB HF IU JW KL LC MH NM OT PI QP SN TY WA ZO D_ R_ U_ V_ X_ Y_ _Z _V _J _X _Q _K"</pre>
 
-<p>Using the same process, we read the second line. If there are blanks on this line, use underscores the same as above (but your machine may not work very well). In our case we have a full wiring, so we come up with this line:</p>
+<p>Using the same process, we read the second and third lines together. If there are blanks on this line, use underscores the same as above (but your machine may not work very well). In our case we have a full wiring, so we come up with this line:</p>
 <pre># Rotor wiring
 rotor 1 name "Rotor 1"
 rotor 1 wiring "ZA EB JC ND TE IF RG OH YI HJ CK ML WM XN KO GP VQ LR DS ST PU FV QW AX BY UZ"</pre>

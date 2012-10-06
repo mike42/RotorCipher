@@ -2,7 +2,7 @@ package decoderPlaintext;
 import java.util.Scanner;
 
 public class RotorMachineDecoder {
-	public static void decodeCLI(String rotorPos, boolean switchHTML) {
+	public static void decodeCLI(String rotorPos, boolean switchHTML, boolean switchVerbose, String output) {
 		String plain, cipher;
 
 		Scanner input = new Scanner(System.in);
@@ -21,29 +21,39 @@ public class RotorMachineDecoder {
 
 		RotorCipherTable table = new RotorCipherTable();
 		table.readIn(plain.toCharArray(), cipher.toCharArray(), rotorPos.toCharArray()[0]);
-		if(switchHTML) {
-			System.out.println(table.toHTML());
-		} else {
-			System.out.println(table);
+		if(switchVerbose) {
+			if(switchHTML) {
+				System.out.println(table.toHTML());
+			} else {
+				System.out.println(table);
+			}
 		}
 		
 		String heading = table.resolveClashesMixedInputOnly();
-		System.out.println("Headings: " + heading);
-
+		if(switchVerbose) {
+			System.out.println("Headings: " + heading);
+		}
+		
 		/* Reshuffle to new heading order */
 		table.shuffleTo(heading);
-		if(switchHTML) {
-			System.out.println(table.toHTML());
-		} else {
-			System.out.println(table);
+		if(switchVerbose) {
+			if(switchHTML) {
+				System.out.println(table.toHTML());
+			} else {
+				System.out.println(table);
+			}
 		}
 		
 		/* Fill columns */
 		table.fillColumns();
-		if(switchHTML) {
-			System.out.println(table.toHTML());
-		} else {
-			System.out.println(table);
+		if(switchVerbose) {
+			if(switchHTML) {
+				System.out.println(table.toHTML());
+			} else {
+				System.out.println(table);
+			}
 		}
+		
+		table.makeMachine(output);
 	}
 }
