@@ -84,7 +84,7 @@ public class Rotor {
 
 			/* Rotate the rotor and fill in its next translation */
 			in = alphabet.prev(in);
-			if(out != '?') {
+			if(out != '_') {
 				out = alphabet.prev(out);
 			}
 		}
