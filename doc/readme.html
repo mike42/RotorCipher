@@ -266,11 +266,12 @@ hello this is a message</pre>
 	<li>Encipher the character through the rotor</li>
 	<li>Encipher the character through the output wiring</li>
 	</ol>
-	<p>And similarly to decipher:</li>
-	<li>Move the rotor one position</li>
-	<li>Decipher the character through the output wiring</li>
-	<li>Decipher the character through the rotor</li>
-	<li>Decipher the character through the input wiring</li>
+	<p>And similarly to decipher:</p>
+	<ol>
+		<li>Move the rotor one position</li>
+		<li>Decipher the character through the output wiring</li>
+		<li>Decipher the character through the rotor</li>
+		<li>Decipher the character through the input wiring</li>
 	</ol>
 
 	<h3><a name="sect-5-1-1">5.1.1 Example enciphering</a></h3>
@@ -804,7 +805,8 @@ setRotorsTo F</pre>
 <h2><a name="sect-6">6. Limitations and practical considerations</a></h2>
 <p>It should go without saying that this program is not intended to facilitate secure communications &mdash; It is a demonstration of one extremely dated type of polyalphabetic substitution cipher, and should not be used with any expectation of security.</p>
 <p>This program will re-use the same configuration many times. For example, when piping output to another program, it will re-set the rotor to the starting position after each line. This is done to make it easy for programs to recover from errors by simply starting a new line, but the predictability of the enciphering creates a major weakness of its own.</p>
-<p>The known-plaintext algorithm relies on unmixed output, by using the alphabet as a pattern. The simulator will happily mix outputs if <tt>outWiring</tt> is set in the machine file, but generated machines will always have unmixed output.</p>
+<p>The known-plaintext algorithm relies on unmixed output, by using the alphabet as a pattern. The simulator will happily mix outputs if <tt>outWiring</tt> is set in the machine file, but the <tt>--new</tt> option will always generate a machine with unmixed output, so that the known-plaintext algorithm can be used.</p>
+<p>The known-plaintext algorithm processes columns individually. It could be improved so that after the table is filled, some of the columns with blank headers (those with only one or a few data points) are placed using this reduced search space.</p>
 <p>In general, short messages containing pseudo-grable, enciphered with random machines (with the addition of mixed output) would have the lowest chance of being deciphered.</p>
 </body>
 </html>
