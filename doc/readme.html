@@ -161,7 +161,7 @@ hello this is a message</pre>
 	<p>And on the other end, use <tt>--decipher</tt> with minimodem's <tt>--rx</tt> switch:</p>
 	<pre>minimodem --rx 30 -q | java RotorCipher --simulate ../files/week02a.machine --rotorpos q --decipher</pre>
 	<h3><a name="sect-4-5">4.5 Finding rotor wiring from plaintext/ciphertext pair</a></h3>
-	<p>If you have plaintext and corresponding ciphertext, then you can find out how the machine was wired. This deature is only implemented in CLI mode. You can pass it the example enciphering to see how it works:</p>
+	<p>If you have plaintext and corresponding ciphertext, then you can find out how the machine was wired. This feature is only implemented in CLI mode. You can pass it the example enciphering to see how it works:</p>
 	<pre>java RotorCipher --known-plaintext --cli --output week02a-deciphered.machine < ../files/week02a-decipher-input.txt</pre>
 
 	<h2><a name="sect-5">5. Algorithms</a></h2>
